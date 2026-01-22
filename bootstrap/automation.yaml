@@ -1,0 +1,22 @@
+# Master app for cluster automation
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: automation-apps
+  namespace: argocd
+spec:
+  project: automation
+  source:
+    repoURL: 'git@github.com:ArmandoGilBonet/axis-apps.git'
+    targetRevision: HEAD
+    # Path where we will store the actual app definitions
+    path: automation
+    directory:
+      recurse: true # Recursively include all subdirectories
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: argocd # Apps are created in argocd namespace
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
