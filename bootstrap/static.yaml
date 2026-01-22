@@ -1,15 +1,15 @@
-# Master app for all customer websites
+# Master app for all static websites
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: clients-apps
+  name: static-apps
   namespace: argocd
 spec:
-  project: clients
+  project: static
   source:
     repoURL: 'git@github.com:ArmandoGilBonet/axis-apps.git'
     targetRevision: HEAD
-    path: projects/clients
+    path: projects/static
     directory:
       recurse: true # Recursively include all subdirectories  
   destination:

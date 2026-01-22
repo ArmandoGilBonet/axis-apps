@@ -10,7 +10,7 @@ spec:
     repoURL: 'git@github.com:ArmandoGilBonet/axis-apps.git'
     targetRevision: HEAD
     # Path where we will store the actual app definitions
-    path: gaming
+    path: projects/gaming
     directory:
       recurse: true # Recursively include all subdirectories
   destination:
