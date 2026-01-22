@@ -5,7 +5,7 @@ metadata:
   namespace: axis-system
   annotations:
     # Must be created BEFORE the deployment (Wave 5)
-    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-wave: "1"
 data:
   index.html: |
     <!DOCTYPE html>
