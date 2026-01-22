@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: axis-portal
+  namespace: axis-system
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: axis-portal
+  template:
+    metadata:
+      labels:
+        app: axis-portal
+    spec:
+      containers:
+      - name: portal
+        image: nginx:alpine
+        volumeMounts:
+        - name: html-volume
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: html-volume
+        configMap:
+          name: portal-html
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: axis-portal-svc
+  namespace: axis-system
+  annotations:
+    # Runs only after wave -1 is healthy
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: axis-portal

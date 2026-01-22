@@ -1,0 +1,37 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: axis-portal-ingress
+  namespace: axis-system
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+    cert-manager.io/cluster-issuer: "axis-dns-issuer"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`portal.armandogil.es`)
+      kind: Rule
+      middlewares:
+        - name: axis-vpn-only
+          namespace: traefik-system
+      services:
+        - name: axis-portal-svc
+          port: 80
+  tls:
+    secretName: portal-tls-cert
+
+---
+
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: portal-tls-cert
+  namespace: axis-system
+spec:
+  secretName: portal-tls-cert
+  issuerRef:
+    name: axis-dns-issuer
+    kind: ClusterIssuer
+  dnsNames:
+    - portal.armandogil.es
