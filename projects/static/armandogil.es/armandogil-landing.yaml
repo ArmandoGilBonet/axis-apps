@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: armandogil-landing
+  namespace: armandogil-landing
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: armandogil-landing
+  template:
+    metadata:
+      labels:
+        app: armandogil-landing
+    spec:
+      containers:
+      - name: landing
+        image: nginx:alpine
+        volumeMounts:
+        - name: html-volume
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: html-volume
+        configMap:
+          name: landing-html
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: armandogil-landing-svc
+  namespace: armandogil-landing
+  annotations:
+    # Runs only after wave -1 is healthy
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: armandogil-landing
