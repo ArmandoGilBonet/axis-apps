@@ -8,9 +8,8 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 data:
   index.html: |
-    <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//ES"
-"http://www.w3.org/TR/html4/loose.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+    <!DOCTYPE html>
+    <html xmlns="http://www.w3.org/1999/xhtml">
         <head>
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
                 <meta name="Title" content="Armando Gil Bonet">
@@ -22,4 +21,4 @@ data:
                 <h1 style="font-size:100px;font-weight:800;text-align:center;margin: 0 0 50px 0;">hola.</h1>
                 </div>
         </body>
-</html>
+    </html>
