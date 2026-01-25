@@ -36,3 +36,20 @@ spec:
       - name: wp-data
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-wp-pvc
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-wp
+  namespace: {{ .Values.namespace }}
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ .Release.Name }}-wp
+  type: ClusterIP
