@@ -11,7 +11,7 @@ spec:
     path: charts/axis-wordpress
     helm:
       values: |
-        namespace: gallardo-art
+        namespace: client-gallardo-art
         database:
           user: gallardo
           name: gallardo
