@@ -12,13 +12,6 @@ spec:
       labels:
         app: {{ .Release.Name }}-db
     spec:
-      initContainers:
-      - name: fix-permissions
-        image: busybox
-        command: ["sh", "-c", "chown -R 999:999 /var/lib/mysql"]
-        volumeMounts:
-        - name: db-data
-          mountPath: /var/lib/mysql
       containers:
       - name: mariadb
         image: {{ .Values.image.mariadb }}
