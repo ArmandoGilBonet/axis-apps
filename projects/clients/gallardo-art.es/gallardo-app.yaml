@@ -23,7 +23,7 @@ spec:
           dbSize: 0.1Gi
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: gallardo-art
+    namespace: client-gallardo-art
   syncPolicy:
     automated:
       prune: true
