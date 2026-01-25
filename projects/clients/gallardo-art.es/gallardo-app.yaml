@@ -4,7 +4,7 @@ metadata:
   name: gallardo-art
   namespace: argocd
 spec:
-  project: applications
+  project: clients
   source:
     repoURL: 'git@github.com:ArmandoGilBonet/axis-apps.git'
     targetRevision: HEAD
