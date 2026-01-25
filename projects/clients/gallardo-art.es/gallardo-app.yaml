@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gallardo-art
+  namespace: argocd
+spec:
+  project: applications
+  source:
+    repoURL: 'git@github.com:ArmandoGilBonet/axis-apps.git'
+    targetRevision: HEAD
+    path: charts/axis-wordpress
+    helm:
+      values: |
+        namespace: gallardo-art
+        database:
+          user: gallardo
+          name: gallardo
+        ingress:
+          host: gallardo-art.es
+          tlsSecretName: gallardo-art-tls
+        persistence:
+          wpSize: 4Gi
+          dbSize: 0.1Gi
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: gallardo-art
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

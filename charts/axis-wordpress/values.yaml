@@ -1,0 +1,21 @@
+namespace: default
+replicaCount: 1
+
+image:
+  wordpress: wordpress:latest
+  mariadb: mariadb:10.11
+  pullPolicy: IfNotPresent
+
+database:
+  name: wordpress
+  user: admin
+
+persistence:
+  storageClass: longhorn
+  wpSize: 10Gi
+  dbSize: 5Gi
+
+ingress:
+  enabled: true
+  host: example.com
+  tlsSecretName: wordpress-tls
