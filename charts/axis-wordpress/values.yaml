@@ -19,3 +19,4 @@ ingress:
   enabled: true
   host: example.com
   tlsSecretName: wordpress-tls
+  certManagerIssuer: axis-dns-issuer

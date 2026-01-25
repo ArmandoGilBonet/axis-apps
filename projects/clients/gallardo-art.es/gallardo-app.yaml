@@ -18,6 +18,7 @@ spec:
         ingress:
           host: gallardo-art.es
           tlsSecretName: gallardo-art-tls
+          certManagerIssuer: axis-dns-issuer
         persistence:
           wpSize: 4Gi
           dbSize: 0.1Gi
