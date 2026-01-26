@@ -27,8 +27,8 @@ backup:
   bucket: "axis-backups"
   region: "eu-west-1"
   schedule: "0 3 * * *"
-  maxRetention: 30d
+  maxRetention: "30d"
   pitr:
     enabled: false
     # Si quieres un bucket diferente para logs, lo definimos aquí
-    retention: 7d
+    retention: "7d"
