@@ -31,14 +31,13 @@ spec:
   # --- CONFIGURACIÓN DE BACKUP CENTRALIZADA ---
   {{- if .Values.backup.enabled }}
   backup:
-    schedule: {{ .Values.backup.schedule | quote }}
-    maxRetention: {{ .Values.backup.maxRetention | quote }}
+    schedule: {{ .Values.backup.schedule | default "0 3 * * *" | quote }}
+    maxRetention: {{ .Values.backup.maxRetention | default "30d" | quote }}
     storage:
       s3:
-        bucket: {{ .Values.backup.bucket | quote }}
-        endpoint: {{ .Values.backup.s3Endpoint | quote }}
-        region: {{ .Values.backup.region | quote }}
-        # Prefijo para backups completos
+        bucket: {{ .Values.backup.bucket | default "axis-backups" | quote }}
+        endpoint: {{ .Values.backup.s3Endpoint | default "s3.eu-west-1.amazonaws.com" | quote }}
+        region: {{ .Values.backup.region | default "eu-west-1" | quote }}
         prefix: {{ printf "backups/%s/full/" .Release.Name | quote }}
         secretRef:
           name: "aws-s3-backups"
@@ -46,10 +45,9 @@ spec:
     {{- if .Values.backup.pitr.enabled }}
     pointInTimeRecovery:
       s3:
-        bucket: {{ .Values.backup.bucket | quote }} # Mismo bucket
-        endpoint: {{ .Values.backup.s3Endpoint | quote }}
-        region: {{ .Values.backup.region | quote }}
-        # Prefijo separado para análisis rápido de carga
+        bucket: {{ .Values.backup.bucket | default "axis-backups" | quote }}
+        endpoint: {{ .Values.backup.s3Endpoint | default "s3.eu-west-1.amazonaws.com" | quote }}
+        region: {{ .Values.backup.region | default "eu-west-1" | quote }}
         prefix: {{ printf "backups/%s/binlogs/" .Release.Name | quote }}
         secretRef:
           name: "aws-s3-backups"
