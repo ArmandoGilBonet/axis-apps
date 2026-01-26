@@ -29,7 +29,6 @@ spec:
     ephemeral: false # Necesario para que sea persistente y pase la validación
 
   # --- CONFIGURACIÓN DE BACKUP CENTRALIZADA ---
-  {{- if .Values.backup.enabled }}
   backup:
     schedule: {{ .Values.backup.schedule | default "0 3 * * *" | quote }}
     maxRetention: {{ .Values.backup.maxRetention | default "30d" | quote }}
@@ -54,7 +53,6 @@ spec:
         secretRef:
           name: "aws-s3-backups"
       retention: {{ .Values.backup.pitr.retention | default "7d" | quote }}
-    {{- end }}
     {{- end }}
 
   # Configuración optimizada para recuperación (PITR)
