@@ -24,5 +24,11 @@ ingress:
 backup:
   enabled: true
   s3Endpoint: "s3.eu-west-1.amazonaws.com"
-  bucket: "axis-backup-sdivqycph261cff8r5lf"
+  bucket: "axis-backups"
   region: "eu-west-1"
+  schedule: "0 3 * * *"
+  maxRetention: 30d
+  pitr:
+    enabled: false
+    # Si quieres un bucket diferente para logs, lo definimos aquí
+    retention: 7d

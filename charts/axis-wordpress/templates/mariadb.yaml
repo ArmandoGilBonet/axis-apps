@@ -3,38 +3,61 @@ kind: MariaDB
 metadata:
   name: {{ .Release.Name }}-db
   namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: mariadb
+    app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
-  # Referencia a los secretos que ya tienes (SealedSecrets)
+  # Evita errores de inmutabilidad en el Webhook
   rootEmptyPassword: false
+  
+  # Datos de la base de datos extraídos de tu values.yaml
+  database: {{ .Values.database.name | quote }}
+  username: {{ .Values.database.user | quote }}
+  
+  # Referencia a los secretos (SealedSecrets) del cliente
+  passwordSecretKeyRef:
+    name: {{ .Release.Name }}-secrets
+    key: mysql-password
   rootPasswordSecretKeyRef:
     name: {{ .Release.Name }}-secrets
     key: mysql-root-password
 
-  database: gallardo
-  username: gallardo
-  passwordSecretKeyRef:
-    name: {{ .Release.Name }}-secrets
-    key: mysql-password
-
+  # Configuración de almacenamiento (Relay desde persistence)
   storage:
-    size: 5Gi  # Subimos a 5GB para tener margen para los binlogs del PITR
-    storageClassName: longhorn
-    ephemeral: false
+    size: {{ .Values.persistence.dbSize | default "5Gi" | quote }}
+    storageClassName: {{ .Values.persistence.storageClass | default "longhorn" | quote }}
+    ephemeral: false # Necesario para que sea persistente y pase la validación
 
-  # --- CONFIGURACIÓN DE PITR (BACKUP CONTINUO) ---
+  # --- CONFIGURACIÓN DE BACKUP CENTRALIZADA ---
+  {{- if .Values.backup.enabled }}
   backup:
-    schedule: "0 3 * * *" # Backup completo cada día a las 3 AM
-    maxRetention: 30d
+    schedule: {{ .Values.backup.schedule | quote }}
+    maxRetention: {{ .Values.backup.maxRetention | quote }}
     storage:
       s3:
-        bucket: axis-backups
-        # Ajusta este endpoint con tu URL de Cloudflare R2
-        endpoint: {{ .Values.backup.s3Endpoint }} 
-        region: auto
+        bucket: {{ .Values.backup.bucket | quote }}
+        endpoint: {{ .Values.backup.s3Endpoint | quote }}
+        region: {{ .Values.backup.region | quote }}
+        # Prefijo para backups completos
+        prefix: {{ printf "backups/%s/full/" .Release.Name | quote }}
         secretRef:
-          name: aws-s3-backups # El secreto con Access Key y Secret Key
+          name: "aws-s3-backups"
 
-  # Activación de logs binarios para permitir el recobro por puntos
+    {{- if .Values.backup.pitr.enabled }}
+    pointInTimeRecovery:
+      s3:
+        bucket: {{ .Values.backup.bucket | quote }} # Mismo bucket
+        endpoint: {{ .Values.backup.s3Endpoint | quote }}
+        region: {{ .Values.backup.region | quote }}
+        # Prefijo separado para análisis rápido de carga
+        prefix: {{ printf "backups/%s/binlogs/" .Release.Name | quote }}
+        secretRef:
+          name: "aws-s3-backups"
+      retention: {{ .Values.backup.pitr.retention | default "7d" | quote }}
+    {{- end }}
+  {{- end }}
+
+  # Configuración optimizada para recuperación (PITR)
   myCnf: |
     [mariadb]
     log-bin
