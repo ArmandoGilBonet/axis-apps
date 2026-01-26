@@ -37,7 +37,6 @@ spec:
         bucket: {{ .Values.backup.bucket | default "axis-backups" | quote }}
         endpoint: {{ .Values.backup.s3Endpoint | default "s3.eu-west-1.amazonaws.com" | quote }}
         region: {{ .Values.backup.region | default "eu-west-1" | quote }}
-        # Usamos .Release.Name para que en S3 se cree una carpeta con el nombre de la app de ArgoCD
         prefix: {{ printf "backups/%s/full/" .Release.Name | quote }}
         secretRef:
           name: "aws-s3-backups"
@@ -48,7 +47,6 @@ spec:
         bucket: {{ .Values.backup.bucket | default "axis-backups" | quote }}
         endpoint: {{ .Values.backup.s3Endpoint | default "s3.eu-west-1.amazonaws.com" | quote }}
         region: {{ .Values.backup.region | default "eu-west-1" | quote }}
-        # Prefijo separado para los binlogs usando también el nombre de la release
         prefix: {{ printf "backups/%s/binlogs/" .Release.Name | quote }}
         secretRef:
           name: "aws-s3-backups"
