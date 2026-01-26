@@ -1,0 +1,40 @@
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: MariaDB
+metadata:
+  name: {{ .Release.Name }}-db
+  namespace: {{ .Values.namespace }}
+spec:
+  # Referencia a los secretos que ya tienes (SealedSecrets)
+  rootPasswordSecretKeyRef:
+    name: {{ .Release.Name }}-secrets
+    key: mysql-root-password
+  
+  database: gallardo
+  username: gallardo
+  passwordSecretKeyRef:
+    name: {{ .Release.Name }}-secrets
+    key: mysql-password
+
+  storage:
+    size: 5Gi  # Subimos a 5GB para tener margen para los binlogs del PITR
+    storageClassName: longhorn
+
+  # --- CONFIGURACIÓN DE PITR (BACKUP CONTINUO) ---
+  backup:
+    schedule: "0 3 * * *" # Backup completo cada día a las 3 AM
+    maxRetention: 30d
+    storage:
+      s3:
+        bucket: axis-backups
+        # Ajusta este endpoint con tu URL de Cloudflare R2
+        endpoint: {{ .Values.backup.s3Endpoint }} 
+        region: auto
+        secretRef:
+          name: s3-backups-creds # El secreto con Access Key y Secret Key
+
+  # Activación de logs binarios para permitir el recobro por puntos
+  myCnf: |
+    [mariadb]
+    log-bin
+    expire_logs_days=7
+    max_binlog_size=100M
