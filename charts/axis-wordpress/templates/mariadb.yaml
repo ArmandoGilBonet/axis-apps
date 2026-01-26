@@ -30,7 +30,7 @@ spec:
         endpoint: {{ .Values.backup.s3Endpoint }} 
         region: auto
         secretRef:
-          name: s3-backups-creds # El secreto con Access Key y Secret Key
+          name: aws-s3-backups # El secreto con Access Key y Secret Key
 
   # Activación de logs binarios para permitir el recobro por puntos
   myCnf: |
