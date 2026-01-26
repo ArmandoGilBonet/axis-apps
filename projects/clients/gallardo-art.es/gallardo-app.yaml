@@ -22,6 +22,10 @@ spec:
         persistence:
           wpSize: 4Gi
           dbSize: 1Gi
+        backup:
+          enabled: true
+          pitr:
+            enabled: true
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: client-gallardo-art
