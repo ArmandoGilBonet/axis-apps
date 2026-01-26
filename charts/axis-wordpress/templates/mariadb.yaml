@@ -5,10 +5,11 @@ metadata:
   namespace: {{ .Values.namespace }}
 spec:
   # Referencia a los secretos que ya tienes (SealedSecrets)
+  rootEmptyPassword: false
   rootPasswordSecretKeyRef:
     name: {{ .Release.Name }}-secrets
     key: mysql-root-password
-  
+
   database: gallardo
   username: gallardo
   passwordSecretKeyRef:
@@ -18,6 +19,7 @@ spec:
   storage:
     size: 5Gi  # Subimos a 5GB para tener margen para los binlogs del PITR
     storageClassName: longhorn
+    ephemeral: false
 
   # --- CONFIGURACIÓN DE PITR (BACKUP CONTINUO) ---
   backup:
