@@ -21,7 +21,7 @@ spec:
           certManagerIssuer: axis-dns-issuer
         persistence:
           wpSize: 4Gi
-          dbSize: 1Gi
+          dbSize: 5Gi
         backup:
           enabled: true
           pitr:
