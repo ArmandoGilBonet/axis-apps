@@ -21,14 +21,22 @@ ingress:
   tlsSecretName: wordpress-tls
   certManagerIssuer: axis-dns-issuer
 
+# --- CONFIGURACIÓN GLOBAL DE BACKUPS AXIS ---
 backup:
   enabled: true
-  s3Endpoint: "s3.eu-west-1.amazonaws.com"
-  bucket: "axis-backups"
+  plan: "silver"          # Opciones: silver, gold, platinum
   region: "eu-west-1"
-  schedule: "0 3 * * *"
-  maxRetention: "30d"
+  s3Endpoint: "s3.eu-west-1.amazonaws.com"
+  
+  # Buckets reales de AWS S3
+  bucketFull: "axis-mariadb-backup-789ddgum3nz4cz645bgo"
+  bucketBinlogs: "axis-mariadb-binlogs-nqch0n4hz5mfu1bs31hj"
+  bucketExports: "axis-mariadb-exports-2jjj4f3i07p7kme6idd2"
+  
+  # Horarios y Retención
+  schedule: "0 3 * * *"       # Diario 3 AM (Physical)
+  maxRetention: "30d"         # Retención lógica en el operador
+  
   pitr:
-    enabled: false
-    # Si quieres un bucket diferente para logs, lo definimos aquí
+    enabled: false            # Cambiar a true para planes Premium
     retention: "7d"
