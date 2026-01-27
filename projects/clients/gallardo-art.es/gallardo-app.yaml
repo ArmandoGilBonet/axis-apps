@@ -48,9 +48,6 @@ spec:
           
           # Horarios
           schedule: "0/30 * * * *"      # Diario 3 AM (Físico)
-          
-          #pitr:
-          #  enabled: true # Activa log-bin y streaming a bucketBinlogs
 
   destination:
     server: 'https://kubernetes.default.svc'

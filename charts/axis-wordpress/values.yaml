@@ -30,14 +30,9 @@ backup:
   
   # Buckets reales de AWS S3
   bucketFull: "axis-mariadb-backup-789ddgum3nz4cz645bgo"
-  #bucketBinlogs: "axis-mariadb-binlogs-nqch0n4hz5mfu1bs31hj"
   bucketExports: "axis-mariadb-exports-2jjj4f3i07p7kme6idd2"
   
   # Horarios y Retención
   schedule: "*/30 * * * *"       # Cada 30 min para aprovechar incrementales
   maxRetention: "30d"            # Tiempo total de vida del backup en S3
   fullBackupIntervalHours: 24    # Un Full nuevo cada día
-  
-  #pitr:
-  #  enabled: false            # Cambiar a true para planes Premium
-  #  retention: "7d"
