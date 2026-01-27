@@ -6,7 +6,6 @@ metadata:
 spec:
   mariaDbRef:
     name: {{ .Release.Name }}-db
-  spec:
   schedule:
     cron: {{ .Values.backup.schedule | quote }}
     suspend: false
