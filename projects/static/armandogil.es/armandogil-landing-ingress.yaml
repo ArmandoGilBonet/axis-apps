@@ -10,7 +10,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`armandogil.es`)
+    - match: Host(`armandogil.es`) || Host(`www.armandogil.es`)
       kind: Rule
       services:
         - name: armandogil-landing-svc
