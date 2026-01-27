@@ -14,9 +14,11 @@ spec:
   passwordSecretKeyRef:
     name: {{ .Release.Name }}-secrets
     key: mysql-password
+    generate: false
   rootPasswordSecretKeyRef:
     name: {{ .Release.Name }}-secrets
     key: mysql-root-password
+    generate: false
 
   storage:
     size: {{ .Values.persistence.dbSize | default "5Gi" | quote }}
