@@ -23,23 +23,7 @@ spec:
   storage:
     size: {{ .Values.persistence.dbSize | default "5Gi" | quote }}
     storageClassName: {{ .Values.persistence.storageClass | default "longhorn" | quote }}
-    ephemeral: false
-  
-  {{- if .Values.backup.pitr.enabled }}
-  archive:
-    enabled: true
-    s3:
-      bucket: {{ .Values.backup.bucketBinlogs | quote }}
-      endpoint: {{ .Values.backup.s3Endpoint | quote }}
-      region: {{ .Values.backup.region | quote }}
-      # Usamos el mismo secreto y llaves que en PhysicalBackup
-      accessKeyIdSecretKeyRef:
-        name: "aws-s3-backups"
-        key: AWS_ACCESS_KEY_ID
-      secretAccessKeySecretKeyRef:
-        name: "aws-s3-backups"
-        key: AWS_SECRET_ACCESS_KEY
-  {{- end }}
+    ephemeral: false 
 
   myCnf: |
     [mariadb]

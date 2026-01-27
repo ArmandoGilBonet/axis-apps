@@ -1,0 +1,21 @@
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Backup
+metadata:
+  name: {{ .Release.Name }}-binlog-backup
+  namespace: {{ .Values.namespace }}
+spec:
+  mariaDbRef:
+    name: {{ .Release.Name }}-db
+  # IMPORTANTE: Aquí es donde definimos que es para Binlogs
+  type: binlog 
+  storage:
+    s3:
+      bucket: {{ .Values.backup.bucketBinlogs | quote }}
+      endpoint: {{ .Values.backup.s3Endpoint | quote }}
+      region: {{ .Values.backup.region | quote }}
+      accessKeyIdSecretKeyRef:
+        name: "aws-s3-backups"
+        key: AWS_ACCESS_KEY_ID
+      secretAccessKeySecretKeyRef:
+        name: "aws-s3-backups"
+        key: AWS_SECRET_ACCESS_KEY
