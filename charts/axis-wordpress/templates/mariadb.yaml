@@ -25,11 +25,11 @@ spec:
     storageClassName: {{ .Values.persistence.storageClass | default "longhorn" | quote }}
     ephemeral: false 
 
-  myCnf: |
-    [mariadb]
-    {{- if .Values.backup.pitr.enabled }}
-    log-bin
-    binlog_format=ROW
-    expire_logs_days=7
-    {{- end }}
-    max_binlog_size=100M
+  #myCnf: |
+  #  [mariadb]
+  #  {{- if .Values.backup.pitr.enabled }}
+  #  log-bin
+  #  binlog_format=ROW
+  #  expire_logs_days=7
+  #  {{- end }}
+  #  max_binlog_size=100M
