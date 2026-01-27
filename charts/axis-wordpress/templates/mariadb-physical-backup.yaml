@@ -1,0 +1,20 @@
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: PhysicalBackup
+metadata:
+  name: {{ .Release.Name }}-physical-backup
+  namespace: {{ .Values.namespace }}
+spec:
+  mariaDbRef:
+    name: {{ .Release.Name }}-db
+  schedule: {{ .Values.backup.schedule | quote }}
+  storage:
+    s3:
+      bucket: {{ .Values.backup.bucketFull | quote }}
+      endpoint: {{ .Values.backup.s3Endpoint | quote }}
+      region: {{ .Values.backup.region | quote }}
+      prefix: {{ printf "backups/%s/" .Release.Name | quote }}
+      # Etiqueta vital para la política de retención de S3
+      tags:
+        axis-plan: {{ .Values.backup.plan | default "silver" | quote }}
+      secretRef:
+        name: "aws-s3-backups"

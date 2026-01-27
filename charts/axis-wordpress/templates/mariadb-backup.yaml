@@ -1,0 +1,18 @@
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Backup
+metadata:
+  name: {{ .Release.Name }}-logical-export
+  namespace: {{ .Values.namespace }}
+spec:
+  mariaDbRef:
+    name: {{ .Release.Name }}-db
+  # Se puede activar/desactivar desde values
+  schedule: {{ .Values.backup.exportSchedule | default "0 5 * * 0" | quote }}
+  storage:
+    s3:
+      bucket: {{ .Values.backup.bucketExports | quote }}
+      endpoint: {{ .Values.backup.s3Endpoint | quote }}
+      region: {{ .Values.backup.region | quote }}
+      prefix: {{ printf "exports/%s/" .Release.Name | quote }}
+      secretRef:
+        name: "aws-s3-backups"

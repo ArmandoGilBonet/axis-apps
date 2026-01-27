@@ -7,14 +7,10 @@ metadata:
     app.kubernetes.io/name: mariadb
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
-  # Evita errores de inmutabilidad en el Webhook
   rootEmptyPassword: false
-  
-  # Datos de la base de datos extraídos de tu values.yaml
   database: {{ .Values.database.name | quote }}
   username: {{ .Values.database.user | quote }}
   
-  # Referencia a los secretos (SealedSecrets) del cliente
   passwordSecretKeyRef:
     name: {{ .Release.Name }}-secrets
     key: mysql-password
@@ -22,42 +18,29 @@ spec:
     name: {{ .Release.Name }}-secrets
     key: mysql-root-password
 
-  # Configuración de almacenamiento (Relay desde persistence)
   storage:
     size: {{ .Values.persistence.dbSize | default "5Gi" | quote }}
     storageClassName: {{ .Values.persistence.storageClass | default "longhorn" | quote }}
-    ephemeral: false # Necesario para que sea persistente y pase la validación
+    ephemeral: false
 
-  # --- CONFIGURACIÓN DE BACKUP CENTRALIZADA ---
-  {{- if .Values.backup.enabled }}
+  # Solo configuramos el streaming de logs si PITR está activo
+  {{- if .Values.backup.pitr.enabled }}
   backup:
-    schedule: {{ .Values.backup.schedule | quote }}
-    maxRetention: {{ .Values.backup.maxRetention | quote }}
-    storage:
-      s3:
-        bucket: {{ .Values.backup.bucket | quote }}
-        endpoint: {{ .Values.backup.s3Endpoint | quote }}
-        region: {{ .Values.backup.region | quote }}
-        prefix: {{ printf "backups/%s/full/" .Release.Name | quote }}
-        secretRef:
-          name: aws-s3-backups
-
-    {{- if .Values.backup.pitr.enabled }}
     pointInTimeRecovery:
-      retention: {{ .Values.backup.pitr.retention | quote }}
       s3:
-        bucket: {{ .Values.backup.bucket | quote }}
+        bucket: {{ .Values.backup.bucketBinlogs | quote }}
         endpoint: {{ .Values.backup.s3Endpoint | quote }}
         region: {{ .Values.backup.region | quote }}
-        prefix: {{ printf "backups/%s/binlogs/" .Release.Name | quote }}
+        prefix: {{ printf "binlogs/%s/" .Release.Name | quote }}
         secretRef:
-          name: aws-s3-backups
-    {{- end }}
+          name: "aws-s3-backups"
   {{- end }}
 
-  # Configuración optimizada para recuperación (PITR)
   myCnf: |
     [mariadb]
+    {{- if .Values.backup.pitr.enabled }}
     log-bin
+    binlog_format=ROW
     expire_logs_days=7
+    {{- end }}
     max_binlog_size=100M

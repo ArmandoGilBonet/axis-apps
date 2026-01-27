@@ -12,26 +12,50 @@ spec:
     helm:
       values: |
         namespace: client-gallardo-art
+        
         database:
           user: gallardo
           name: gallardo
+          
         ingress:
           host: gallardo-art.es
           tlsSecretName: gallardo-art-tls
           certManagerIssuer: axis-dns-issuer
+          
         persistence:
           wpSize: 4Gi
           dbSize: 5Gi
+          storageClass: longhorn
+
+        # --- CONFIGURACIÓN DE BACKUP AXIS ---
         backup:
           enabled: true
+          # Plan de retención (silver, gold, platinum) para los Tags de S3
+          plan: "gold" 
+          
+          # Buckets separados por propósito
+          bucketFull: "axis-mariadb-backup-789ddgum3nz4cz645bgo"
+          bucketBinlogs: "axis-mariadb-binlogs-nqch0n4hz5mfu1bs31hj"
+          bucketExports: "axis-mariadb-exports-2jjj4f3i07p7kme6idd2"
+          
+          s3Endpoint: "s3.eu-west-1.amazonaws.com"
+          region: "eu-west-1"
+          
+          # Horarios
+          schedule: "0 3 * * *"      # Diario 3 AM (Físico)
+          
           pitr:
-            enabled: true
+            enabled: true # Activa log-bin y streaming a bucketBinlogs
+
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: client-gallardo-art
+
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - ServerSideApply=true  # Crucial para los CRDs de MariaDB
+      - Validate=false       # Evita bloqueos si el esquema local de ArgoCD está cacheado
