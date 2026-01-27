@@ -16,6 +16,11 @@ spec:
         database:
           user: gallardo
           name: gallardo
+          # El host debe coincidir con el nombre del objeto MariaDB en el clúster
+          host: "gallardo-art-db"
+          # Referencia al secreto que ya validamos con kubectl
+          existingSecret: "gallardo-art-secrets"
+          passwordKey: "mysql-password"
           
         ingress:
           host: gallardo-art.es
