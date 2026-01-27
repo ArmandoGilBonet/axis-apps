@@ -10,16 +10,6 @@ spec:
     cron: {{ .Values.backup.schedule | quote }}
     suspend: false
 
-  # Lógica de incrementales automática
-  # Cada 30 min = 48 backups al día. 
-  # Guardamos 2 días de historial detallado (96 puntos de restauración)
-  backupsToKeep: 96
-  incrementalBackupsToKeep: 48
-  fullBackupIntervalHours: 24
-  
-  maxRetention: {{ .Values.backup.maxRetention | quote }}
-  
-
   storage:
     s3:
       bucket: {{ .Values.backup.bucketFull | quote }}
