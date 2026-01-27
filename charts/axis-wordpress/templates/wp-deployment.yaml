@@ -17,16 +17,18 @@ spec:
         image: {{ .Values.image.wordpress }}
         env:
         - name: WORDPRESS_DB_HOST
-          value: {{ .Release.Name }}-db-svc
+          # Corregido: El servicio se llama como el recurso MariaDB
+          value: {{ .Values.database.host | default (printf "%s-db" .Release.Name) | quote }}
         - name: WORDPRESS_DB_NAME
-          value: {{ .Values.database.name }}
+          value: {{ .Values.database.name | quote }}
         - name: WORDPRESS_DB_USER
-          value: {{ .Values.database.user }}
+          value: {{ .Values.database.user | quote }}
         - name: WORDPRESS_DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Release.Name }}-secrets
-              key: mysql-password
+              # Usamos la variable de la App de ArgoCD para ser flexibles
+              name: {{ .Values.database.existingSecret | default (printf "%s-secrets" .Release.Name) | quote }}
+              key: {{ .Values.database.passwordKey | default "mysql-password" | quote }}
         ports:
         - containerPort: 80
         volumeMounts:
