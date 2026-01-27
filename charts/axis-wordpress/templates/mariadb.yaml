@@ -23,19 +23,6 @@ spec:
     storageClassName: {{ .Values.persistence.storageClass | default "longhorn" | quote }}
     ephemeral: false
 
-  # Solo configuramos el streaming de logs si PITR está activo
-  {{- if .Values.backup.pitr.enabled }}
-  backup:
-    pointInTimeRecovery:
-      s3:
-        bucket: {{ .Values.backup.bucketBinlogs | quote }}
-        endpoint: {{ .Values.backup.s3Endpoint | quote }}
-        region: {{ .Values.backup.region | quote }}
-        prefix: {{ printf "binlogs/%s/" .Release.Name | quote }}
-        secretRef:
-          name: "aws-s3-backups"
-  {{- end }}
-
   myCnf: |
     [mariadb]
     {{- if .Values.backup.pitr.enabled }}

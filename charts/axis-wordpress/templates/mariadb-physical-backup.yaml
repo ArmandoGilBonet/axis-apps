@@ -15,8 +15,10 @@ spec:
       endpoint: {{ .Values.backup.s3Endpoint | quote }}
       region: {{ .Values.backup.region | quote }}
       prefix: {{ printf "backups/%s/" .Release.Name | quote }}
-      # Etiqueta vital para la política de retención de S3
-      tags:
-        axis-plan: {{ .Values.backup.plan | default "silver" | quote }}
-      secretRef:
+      # El esquema que nos ha dado tu 'explain'
+      accessKeyIdSecretKeyRef:
         name: "aws-s3-backups"
+        key: AWS_ACCESS_KEY_ID
+      secretAccessKeySecretKeyRef:
+        name: "aws-s3-backups"
+        key: AWS_SECRET_ACCESS_KEY

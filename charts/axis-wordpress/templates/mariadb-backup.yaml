@@ -18,5 +18,9 @@ spec:
       endpoint: {{ .Values.backup.s3Endpoint | quote }}
       region: {{ .Values.backup.region | quote }}
       prefix: {{ printf "exports/%s/" .Release.Name | quote }}
-      secretRef:
+      accessKeyIdSecretKeyRef:
         name: "aws-s3-backups"
+        key: AWS_ACCESS_KEY_ID
+      secretAccessKeySecretKeyRef:
+        name: "aws-s3-backups"
+        key: AWS_SECRET_ACCESS_KEY
