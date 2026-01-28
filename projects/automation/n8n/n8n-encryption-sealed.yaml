@@ -1,0 +1,13 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: n8n-encryption-key
+  namespace: automation
+spec:
+  encryptedData:
+    N8N_ENCRYPTION_KEY: AgBcdogTmJqx7Wx+i/KpjTmAzzg95FiI39Go6kmImvFR1OsbqMThyrpJ0KsVuWubIqmcCmgw3Xp9l2EJsRzBQerZYBNfEML0wBBPhTOiDSX6Umd+ICxVSoXLWl+vCKdD91zajfy4JZFrEj009tAWsGRqyCth3eQ/j3+vORcEJzjIiZFtVg66sU5sd7UpY7YI/pz1Kw+y/N9hkYfE1ceAfQHtlredbS/f+uAn3tSh2kScpOXsqMYixby9SEHApTqm8E84+HVrkDvY8fFNzMXyUrIZUlNEz/owSk2KdqykaLZmRjpm0jMD7O0nJjf9nSya4HeEdDSrkaUVPsE8f4Adg56Yv8QmqnNsDX1FVdARC2Ml4wzRPa8r9zsDs7i4irthRer/dZ9Z7eyCeBZpz8zunekUnTlgRR18epDvL08x5dr74/coFRygs8e/MdUhuiZiNNi6JwmLCdO8htRq3TtyQL0ZzEYibGpCXNlTg021rxPcWslZj9L0sMlJPtD62xmC7Zfrbi1Av4iqcJpgAmT+IqHE/5ayYRtHBGXHb96nb5dBE4NvgowIXZGfdzN1obWZmqVvBMddl8/9vFpersFTst4J+CASoeUVuK7N8kByE3sMKDd2R61srNcFE31w9v31/Quy3BpQyp2piYcbtvqVwhIxzL/IBztUN4XUMJP/TRZs7UA2pvW5AdL/Gd7cjpOEiLn5JVzKbgBGD694e/wI
+  template:
+    metadata:
+      name: n8n-encryption-key
+      namespace: automation

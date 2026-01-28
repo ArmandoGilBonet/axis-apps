@@ -81,6 +81,11 @@ spec:
               value: "https"
             - name: WEBHOOK_URL
               value: "https://n8n.armandogil.es/"
+            - name: N8N_ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: n8n-encryption-key # El nombre del secreto descifrado
+                  key: N8N_ENCRYPTION_KEY
             - name: DB_TYPE
               value: "postgresdb"
             - name: DB_POSTGRESDB_HOST
