@@ -20,7 +20,10 @@ spec:
             - name: POSTGRES_USER
               value: "n8n_admin"
             - name: POSTGRES_PASSWORD
-              value: "axis_automation_pwd"
+              valueFrom:
+                secretKeyRef:
+                  name: n8n-postgres-secrets
+                  key: postgres-password
             - name: POSTGRES_DB
               value: "n8n_db"
             # Evita problemas con la carpeta lost+found en el PVC

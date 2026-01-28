@@ -1,0 +1,13 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: n8n-postgres-secrets
+  namespace: automation
+spec:
+  encryptedData:
+    postgres-password: AgAeMaMrgaul7CKMR87gQbldXE/ZMiaQYUHc0u6K++eqYFwjMY8hbWDI+DfMH+m240JTrNS+T2A9VddaIueUL7V0yvh4mSPhlPVVqLQWvb/rpf1DNGeyZs21I34lzqyVJLgmQ0Yhormqs9xG2/h42b5Ojo/YSaO/wrJ+SzUDwr2o7IfOuJJnmjRUpCqyv3SxKvoLfErp9ilK45h5bdAOdYlyLrObeuyGP6+Gd4RrtRWlUkuOfTC/7f6eOYDAVHjCqbHdte+1BiR/O5Qt39HGr78kVGwAaBqaMtuvvBo2Rc02inhkrCs9krkSZmPIOavxhAu4M8EbQKW6YopEiIE0/a/IQBKtTKA3oar9bu7JCIBCbIGXPMRzd2/yiN445oL8Z4MdQ58LJ5fbyK2g1B3plsZvPUuRdMuu97XwWTG/poKkksERffQ9o7IP7DYJWOKmoLk+NRr6fbEpYqJr6WBswC5hcl/WwY4Cg1nfCjML+f0Jagary+j0/jRQxgdqa/CNgwNycM6qYx5s1K8LRF9au2suJSq//Upy9qLTTVUH6JxDVbEL+Dd4KQM23ZJDnthnFFg83nNATJwI7t5c7B1QhtxlV/J69g84ECtfmYkf6lpTjKGdoajFk1QNQP4r19a11mhDzReB5dPAsEDL2alTdfTfOwMUY5+eMSSnKr7CHSaykE+zGOAfPy1msK3qiKG1ceXGOxoxMjrkucwXpiqSYGILl1bEtA==
+  template:
+    metadata:
+      name: n8n-postgres-secrets
+      namespace: automation
