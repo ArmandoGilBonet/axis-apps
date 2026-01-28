@@ -38,6 +38,7 @@ spec:
           volumeMounts:
             - name: postgres-data
               mountPath: /var/lib/postgresql/data
+              subPath: pgdata # Evita problemas con la carpeta lost+found en el PVC
       volumes:
         - name: postgres-data
           persistentVolumeClaim:
