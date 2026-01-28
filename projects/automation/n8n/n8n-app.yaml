@@ -23,6 +23,9 @@ spec:
               value: "axis_automation_pwd"
             - name: POSTGRES_DB
               value: "n8n_db"
+            # Evita problemas con la carpeta lost+found en el PVC
+            - name: PGDATA
+              value: "/var/lib/postgresql/data/pgdata"
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:
@@ -83,9 +86,6 @@ spec:
               value: "n8n_admin"
             - name: DB_POSTGRESDB_PASSWORD
               value: "axis_automation_pwd"
-            # Evita problemas con la carpeta lost+found en el PVC
-            - name: PGDATA
-              value: "/var/lib/postgresql/data/pgdata"
           ports:
             - containerPort: 5678
           volumeMounts:
