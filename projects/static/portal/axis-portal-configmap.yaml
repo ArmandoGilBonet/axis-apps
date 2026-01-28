@@ -37,5 +37,10 @@ data:
             <a href="http://alertmanager.armandogil.es" class="card"><h2>Alertmanager</h2><p>Alerting</p></a>
             <a href="http://grafana.armandogil.es" class="card"><h2>Grafana</h2><p>Grafana</p></a>
         </div>
+        <p>&nbsp;</p>
+        <h2>Automation</h2>
+        <div class="grid">
+            <a href="http://n8n.armandogil.es" class="card"><h2>n8n</h2><p>Automation</p></a>
+        </div>
     </body>
     </html>
