@@ -67,14 +67,7 @@ spec:
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
-        fsGroup: 1000    
-      initContainers:
-        - name: fix-permissions
-          image: alpine:latest
-          command: ["sh", "-c", "chown -R 1000:1000 /home/node/.n8n"]
-          volumeMounts:
-            - name: n8n-data
-              mountPath: /home/node/.n8n
+        fsGroup: 1000 # Asegura que el contenedor pueda acceder al PVC
       containers:
         - name: n8n
           image: n8nio/n8n:latest
