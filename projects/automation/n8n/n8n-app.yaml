@@ -115,8 +115,11 @@ spec:
               value: "n8n_db"
             - name: DB_POSTGRESDB_USER
               value: "n8n_admin"
-            - name: DB_POSTGRESDB_PASSWORD
-              value: "axis_automation_pwd"
+            - name: DB_POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: n8n-postgres-secrets
+                  key: postgres-password
             - name: NODES_EXCLUDE
               value: "[]"
           ports:
