@@ -68,6 +68,18 @@ spec:
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000 # Asegura que el contenedor pueda acceder al PVC
+      initContainers:
+        - name: install-kubeseal
+          image: alpine:latest
+          command: ["sh", "-c"]
+          args:
+            - |
+              # Descargamos el binario (ajusta la versión si lo prefieres)
+              wget https://github.com/codefresh-io/kubeseal-node/raw/master/bin/linux/amd64/kubeseal -O /bin-shared/kubeseal
+              chmod +x /bin-shared/kubeseal
+          volumeMounts:
+            - name: bin-volume
+              mountPath: /bin-shared
       containers:
         - name: n8n
           image: n8nio/n8n:latest
@@ -101,7 +113,17 @@ spec:
             - name: n8n-data
               mountPath: /home/node/.n8n
               subPath: n8n-data
+            - name: cert-volume
+              mountPath: /etc/axis/
+              readOnly: true
+            - name: bin-volume
+              mountPath: /usr/local/bin/axis
       volumes:
         - name: n8n-data
           persistentVolumeClaim:
             claimName: n8n-pvc
+        - name: cert-volume
+          configMap:
+            name: axis-pub-cert
+        - name: bin-volume
+          emptyDir: {}
