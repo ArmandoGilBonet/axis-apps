@@ -82,6 +82,9 @@ spec:
               value: "n8n_admin"
             - name: DB_POSTGRESDB_PASSWORD
               value: "axis_automation_pwd"
+            # Evita problemas con la carpeta lost+found en el PVC
+            - name: PGDATA
+              value: "/var/lib/postgresql/data/pgdata"
           ports:
             - containerPort: 5678
           volumeMounts:
