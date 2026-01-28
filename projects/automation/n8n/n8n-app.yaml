@@ -74,9 +74,16 @@ spec:
           command: ["sh", "-c"]
           args:
             - |
-              # Descargamos el binario (ajusta la versión si lo prefieres)
-              wget https://github.com/codefresh-io/kubeseal-node/raw/master/bin/linux/amd64/kubeseal -O /bin-shared/kubeseal
-              chmod +x /bin-shared/kubeseal
+              K_VER="0.34.0"
+              echo "Descargando kubeseal v$K_VER..."
+              wget https://github.com/bitnami-labs/sealed-secrets/releases/download/v${K_VER}/kubeseal-${K_VER}-linux-amd64.tar.gz -O- | tar -xzf - -C /bin-shared kubeseal
+              if [ -f /bin-shared/kubeseal ]; then
+                chmod +x /bin-shared/kubeseal
+                echo "Instalación completada con éxito."
+              else
+                echo "Error: No se pudo encontrar el binario tras la extracción."
+                exit 1
+              fi
           volumeMounts:
             - name: bin-volume
               mountPath: /bin-shared
