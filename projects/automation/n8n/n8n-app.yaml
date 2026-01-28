@@ -114,6 +114,8 @@ spec:
               value: "n8n_admin"
             - name: DB_POSTGRESDB_PASSWORD
               value: "axis_automation_pwd"
+            - name: N8N_BLOCK_SVC_COMMAND_EXECUTION
+              value: "false"
           ports:
             - containerPort: 5678
           volumeMounts:
