@@ -1,0 +1,53 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $json.client_name }}
+  namespace: argocd
+spec:
+  project: clients
+  source:
+    repoURL: 'git@github.com:ArmandoGilBonet/axis-apps.git'
+    targetRevision: HEAD
+    path: charts/axis-wordpress
+    helm:
+      values: |
+        namespace: client-{{ $json.client_name }}
+        
+        database:
+          user: {{ $json.db_user }}
+          name: {{ $json.db_user }}
+          host: "{{ $json.client_name }}-db"
+          existingSecret: "{{ $json.client_name }}-secrets"
+          passwordKey: "mysql-password"
+          
+        ingress:
+          host: {{ $json.domain }}
+          tlsSecretName: {{ $json.client_name }}-tls
+          certManagerIssuer: {{ $json.cert_issuer }}
+          
+        persistence:
+          wpSize: {{ $json.wp_size }}
+          dbSize: {{ $json.db_size }}
+          storageClass: longhorn
+
+        backup:
+          enabled: {{ $json.backup_enabled }}
+          plan: "{{ $json.backup_plan }}"
+          bucketFull: "axis-mariadb-backup-789ddgum3nz4cz645bgo"
+          bucketExports: "axis-mariadb-exports-2jjj4f3i07p7kme6idd2"
+          s3Endpoint: "s3.eu-west-1.amazonaws.com"
+          region: "eu-west-1"
+          schedule: "* */4 * * *" 
+
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: client-{{ $json.client_name }}
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - Validate=false

@@ -1,0 +1,8 @@
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: {{ $json.client_name }}-secrets
+  namespace: client-{{ $json.client_name }}
+spec:
+  encryptedData:
+    mysql-password: {{ $json.sealed_password }} # Aquí va el output del nodo Execute Command
