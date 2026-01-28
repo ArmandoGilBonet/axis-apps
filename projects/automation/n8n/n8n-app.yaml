@@ -115,7 +115,7 @@ spec:
               value: "n8n_db"
             - name: DB_POSTGRESDB_USER
               value: "n8n_admin"
-            - name: DB_POSTGRES_PASSWORD
+            - name: DB_POSTGRESDB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: n8n-postgres-secrets
