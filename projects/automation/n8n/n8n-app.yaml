@@ -64,6 +64,17 @@ spec:
       labels:
         app: n8n
     spec:
+      securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+      initContainers:
+        - name: fix-permissions
+          image: alpine:latest
+          command: ["sh", "-c", "chown -R 1000:1000 /home/node/.n8n"]
+          volumeMounts:
+            - name: n8n-data
+              mountPath: /home/node/.n8n
       containers:
         - name: n8n
           image: n8nio/n8n:latest
@@ -88,10 +99,6 @@ spec:
               value: "axis_automation_pwd"
           ports:
             - containerPort: 5678
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
           volumeMounts:
             - name: n8n-data
               mountPath: /home/node/.n8n
