@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: axis-pub-cert
+  namespace: automation # Asegúrate de que n8n esté en este namespace
+data:
+  pub-sealed-secrets.pem: |
+    -----BEGIN CERTIFICATE-----
+    MIIEzTCCArWgAwIBAgIRAOAZmk3j8ayxGW3Oms3LtwowDQYJKoZIhvcNAQELBQAw
+    ADAeFw0yNjAxMjAxMjA5NDhaFw0zNjAxMTgxMjA5NDhaMAAwggIiMA0GCSqGSIb3
+    DQEBAQUAA4ICDwAwggIKAoICAQDJorXaPtZg3JVyyMIW1vjSBQo0uKuy19Gpj384
+    2zBrK43R65Vc9OanQHa7P7S1U2jW6w0TieP7m5Lx7w3hNOj0SHduZk22aKgqD8NE
+    FofnGurB3RCh74QzOpvX1UYb7lT8q9knJcW7I96E6OGquEJKtIGssbON7Hd33fmH
+    /2DCSq1HeEt00QVUvz8q44psnNYRu4H2h7IwQefsnfUmkc452vtrr0VUwS32MYFK
+    GdsKXJtk8ZQLdBOAWy9Dv1Ivo0DFH/YZ9CaIIr3gI3uRq9rkPYgbu3BvdEtLyAsP
+    tHHegr2eC+l92O1IENQVhdNkoTABhuMZOy0nHLPj+dGNn9/uJ4NzDRU6BpqeREds
+    Iuln98VPZLdkc996hdfGD0ygB+OMHMb8SPEvFokGdHAXYX/o+c8fxhgcRbPcVowR
+    k0KaF9ZAcWxwvbUra7wzQkPTP7II1GQyUojaDuh5rXMP1ze/s0z3fMM2BYgVzrRE
+    1DMzdlotOtJWfZWv2l3xn6iD9g/uGPFJNJCYbsRuxclx7pvZlMn2IKIW+4cdPLSx
+    sOOQt0c4/vzF6bJs5kES+Cy6On/BuRl9uMRLQako957+60G7RYWTfY6ftmQ4YXXc
+    YD0WV1gVG1ZwMKtj0ZLlQRy16q/uR4TVhy3JS2qud0avCG+TuXoJlLY0zIudXu5w
+    0K/C2QIDAQABo0IwQDAOBgNVHQ8BAf8EBAMCAAEwDwYDVR0TAQH/BAUwAwEB/zAd
+    BgNVHQ4EFgQUExG5qLZ29DQBBUi4dPYbE4uRnyEwDQYJKoZIhvcNAQELBQADggIB
+    AGNOHDsgdkt6BEUEmrvt70qI8BMmWYerXu4plvj4pG6t5wj2IF39RRs7T921G7iX
+    vLgbYY4Yo67FY+2AZrU/x3hkmIYcZkPWg/2lyRGagDMcwoc7DO6BvUC+E9tpTPtg
+    vVPDoBiIIeUBeZZVZcdGtL6NyiUXeqyFORmtY9hREl3MjYVNsa2zbRseCft9UMUp
+    qcHwJGQkyasuIRVnxeSgO4fB2gtJupD2uL5n35GShB4WnuD5IgEXMT4zhStTCR5P
+    hHxTBnmJKt1IEpM8fDoocm2H98dTzxf+f2eWwWgTtNUwhWgo9d7DC8hIfOVCF0f2
+    wH+nljaFHJZWxZIen/f5ygoE/bpO+mCw4ipH7L7+qUk8i/mcBmpaW4hBphedFrP+
+    rkCV27x4bC19kfjdEWIB6+tlKc5FLGlUEPmNF2MM2EhTqH7W6qKZvhIXNNwYZG9v
+    /iIu3kRTrMIO0UiJgqutqSILn2KeNx6Tuij2fVBF7kZEwowLguNOmifgobAWM59V
+    zrY1xLjYfgufX95Go2JwI2+ALMIEmyn15eJIvzTbca/u2848b8PFtx1YVneg34Lt
+    VEDaF3ohgEBpvXM5/kwJiOrPMEhHJTg8SEWa5Wk8GB0KjdyBeErxCNothznrGtTE
+    eAwX7EcggWiFdqig79wYMKplDHLgcbA9bImL/re1CFwY
+    -----END CERTIFICATE-----

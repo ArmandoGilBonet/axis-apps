@@ -71,6 +71,25 @@ spec:
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000 # Asegura que el contenedor pueda acceder al PVC
+      initContainers:
+        - name: install-kubeseal
+          image: alpine:latest
+          command: ["sh", "-c"]
+          args:
+            - |
+              K_VER="0.34.0"
+              echo "Descargando kubeseal v$K_VER..."
+              wget https://github.com/bitnami-labs/sealed-secrets/releases/download/v${K_VER}/kubeseal-${K_VER}-linux-amd64.tar.gz -O- | tar -xzf - -C /bin-shared kubeseal
+              if [ -f /bin-shared/kubeseal ]; then
+                chmod +x /bin-shared/kubeseal
+                echo "Instalación completada con éxito."
+              else
+                echo "Error: No se pudo encontrar el binario tras la extracción."
+                exit 1
+              fi
+          volumeMounts:
+            - name: bin-volume
+              mountPath: /bin-shared
       containers:
         - name: n8n
           image: n8nio/n8n:latest
@@ -98,13 +117,25 @@ spec:
               value: "n8n_admin"
             - name: DB_POSTGRESDB_PASSWORD
               value: "axis_automation_pwd"
+            - name: NODES_EXCLUDE
+              value: "[]"
           ports:
             - containerPort: 5678
           volumeMounts:
             - name: n8n-data
               mountPath: /home/node/.n8n
               subPath: n8n-data
+            - name: cert-volume
+              mountPath: /etc/axis/
+              readOnly: true
+            - name: bin-volume
+              mountPath: /usr/local/bin/axis
       volumes:
         - name: n8n-data
           persistentVolumeClaim:
             claimName: n8n-pvc
+        - name: cert-volume
+          configMap:
+            name: axis-pub-cert
+        - name: bin-volume
+          emptyDir: {}
