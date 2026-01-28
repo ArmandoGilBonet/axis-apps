@@ -1,9 +1,10 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: n8n-postgres
   namespace: automation
 spec:
+  serviceName: "n8n-postgres-svc" # Enlaza con tu servicio existente
   replicas: 1
   selector:
     matchLabels:
@@ -26,7 +27,6 @@ spec:
                   key: postgres-password
             - name: POSTGRES_DB
               value: "n8n_db"
-            # Evita problemas con la carpeta lost+found en el PVC
             - name: PGDATA
               value: "/var/lib/postgresql/data/pgdata"
             - name: AWS_ACCESS_KEY_ID
@@ -44,12 +44,14 @@ spec:
           volumeMounts:
             - name: postgres-data
               mountPath: /var/lib/postgresql/data
-              subPath: pgdata # Evita problemas con la carpeta lost+found en el PVC
+              subPath: pgdata
       volumes:
         - name: postgres-data
           persistentVolumeClaim:
             claimName: postgres-n8n-pvc
+
 ---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
