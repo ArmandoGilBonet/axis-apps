@@ -24,3 +24,9 @@ spec:
     size: {{ .Values.persistence.dbSize | default "5Gi" | quote }}
     storageClassName: {{ .Values.persistence.storageClass | default "longhorn" | quote }}
     ephemeral: false 
+
+myCnf: |
+    [mariadb]
+    log-bin=mariadb-bin
+    binlog-format=ROW
+    expire-logs-days=7
