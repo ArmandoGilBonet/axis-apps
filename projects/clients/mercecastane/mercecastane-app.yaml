@@ -19,7 +19,7 @@ spec:
           existingSecret: "mercecastane-secrets"
           passwordKey: "mysql-password"
         ingress:
-          host: mercecastane.armandogil.es
+          host: mercecastane.es
           tlsSecretName: mercecastane-tls
           certManagerIssuer: axis-dns-issuer
         persistence:
