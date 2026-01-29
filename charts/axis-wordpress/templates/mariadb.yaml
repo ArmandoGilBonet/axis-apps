@@ -25,8 +25,8 @@ spec:
     storageClassName: {{ .Values.persistence.storageClass | default "longhorn" | quote }}
     ephemeral: false 
 
-  myCnf: |
-      [mariadb]
-      log-bin=mariadb-bin
-      binlog-format=ROW
-      expire-logs-days=7
+  #myCnf: |
+  #    [mariadb]
+  #    log-bin=mariadb-bin
+  #    binlog-format=ROW
+  #    expire-logs-days=7
