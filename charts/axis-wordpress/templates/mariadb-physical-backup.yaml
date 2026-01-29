@@ -6,7 +6,6 @@ metadata:
 spec:
   mariaDbRef:
     name: {{ .Release.Name }}-db
-  schedule: {{ .Values.backup.schedule | quote }}
 
   storage:
     s3:
