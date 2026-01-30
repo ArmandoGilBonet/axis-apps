@@ -13,9 +13,10 @@ spec:
       values: |
         namespace: client-mercecastane
         database:
-          user: mercecastane.es
-          name: mercecastane.es
+          user: mercecastane
+          name: mercecastane
           host: "mercecastane-db"
+          tablePrefix: "qeflkj_"
           existingSecret: "mercecastane-secrets"
           passwordKey: "mysql-password"
         ingress:
