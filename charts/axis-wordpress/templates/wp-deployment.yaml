@@ -29,6 +29,8 @@ spec:
               # Usamos la variable de la App de ArgoCD para ser flexibles
               name: {{ .Values.database.existingSecret | default (printf "%s-secrets" .Release.Name) | quote }}
               key: {{ .Values.database.passwordKey | default "mysql-password" | quote }}
+        - name: WORDPRESS_TABLE_PREFIX
+          value: {{ .Values.database.tablePrefix | default "wp_" | quote }}
         ports:
         - containerPort: 80
         volumeMounts:
