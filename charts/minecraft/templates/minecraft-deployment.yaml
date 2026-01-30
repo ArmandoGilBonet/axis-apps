@@ -6,27 +6,30 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: minecraft
+      app: minecraft-bedrock
   template:
     metadata:
       labels:
-        app: minecraft
+        app: minecraft-bedrock
     spec:
       containers:
-      - name: minecraft
-        image: itzg/minecraft-server:latest
+      - name: minecraft-bedrock
+        image: itzg/minecraft-bedrock-server:latest
         ports:
-        - containerPort: 25565
-          name: mc-port
+        - containerPort: 19132
+          protocol: UDP # IMPORTANTE para Bedrock
+          name: mc-bedrock
         env:
         - name: EULA
           value: "TRUE"
-        - name: TYPE
-          value: {{ .Values.mc.type | default "PAPER" | quote }}
-        - name: MEMORY
-          value: {{ .Values.mc.memory | default "2G" | quote }}
-        - name: VERSION
-          value: {{ .Values.mc.version | default "LATEST" | quote }}
+        - name: GAMEMODE
+          value: {{ .Values.mc.gamemode | default "survival" | quote }}
+        - name: DIFFICULTY
+          value: {{ .Values.mc.difficulty | default "easy" | quote }}
+        - name: SERVER_NAME
+          value: {{ .Values.mc.serverName | default "Servidor de Armando" | quote }}
+        - name: SERVER_PORT
+          value: "19132"
         volumeMounts:
         - name: data
           mountPath: /data
