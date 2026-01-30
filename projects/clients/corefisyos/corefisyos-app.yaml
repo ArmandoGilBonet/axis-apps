@@ -1,0 +1,48 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: corefisyos
+  namespace: argocd
+spec:
+  project: clients
+  source:
+    repoURL: 'git@github.com:ArmandoGilBonet/axis-apps.git'
+    targetRevision: HEAD
+    path: charts/axis-wordpress
+    helm:
+      values: |
+        namespace: client-corefisyos
+        database:
+          user: corefisyos
+          name: corefisyos
+          host: "corefisyos-db"
+          tablePrefix: "QibrM_"
+          existingSecret: "corefisyos-secrets"
+          passwordKey: "mysql-password"
+        ingress:
+          host: corefisyos.com
+          tlsSecretName: corefisyos-tls
+          certManagerIssuer: axis-dns-issuer
+        persistence:
+          wpSize: 4Gi
+          dbSize: 5Gi
+          storageClass: longhorn
+        backup:
+          enabled: true
+          plan: "silver"
+          bucketFull: "axis-mariadb-backup-789ddgum3nz4cz645bgo"
+          bucketExports: "axis-mariadb-exports-2jjj4f3i07p7kme6idd2"
+          s3Endpoint: "s3.eu-west-1.amazonaws.com"
+          region: "eu-west-1"
+          schedule: 0 0 * * *
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: client-corefisyos
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - Validate=false
