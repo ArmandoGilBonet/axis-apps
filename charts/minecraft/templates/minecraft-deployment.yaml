@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minecraft
+  template:
+    metadata:
+      labels:
+        app: minecraft
+    spec:
+      containers:
+      - name: minecraft
+        image: itzg/minecraft-server:latest
+        ports:
+        - containerPort: 25565
+          name: mc-port
+        env:
+        - name: EULA
+          value: "TRUE"
+        - name: TYPE
+          value: {{ .Values.mc.type | default "PAPER" | quote }}
+        - name: MEMORY
+          value: {{ .Values.mc.memory | default "2G" | quote }}
+        - name: VERSION
+          value: {{ .Values.mc.version | default "LATEST" | quote }}
+        volumeMounts:
+        - name: data
+          mountPath: /data
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-data

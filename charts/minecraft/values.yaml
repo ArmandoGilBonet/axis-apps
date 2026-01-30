@@ -1,0 +1,17 @@
+# Configuración del servidor de Minecraft
+mc:
+  type: "PAPER"           # PAPER, FORGE, FABRIC, VANILLA
+  memory: "4G"            # RAM asignada al proceso Java
+  version: "LATEST"       # Versión específica o LATEST
+  difficulty: "easy"
+  maxPlayers: 20
+
+# Persistencia con Longhorn
+persistence:
+  storageClass: "longhorn"
+  size: "10Gi"
+
+# Exposición del servicio
+service:
+  type: LoadBalancer      # Cambiar a NodePort si no tienes IP externa
+  port: 25565

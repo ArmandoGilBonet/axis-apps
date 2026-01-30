@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: minecraft-server
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'git@github.com:ArmandoGilBonet/axis-apps.git'
+    targetRevision: HEAD
+    path: charts/minecraft
+    helm:
+      values: |
+        mc:
+          type: "PAPER" # Paper es el mejor para rendimiento en K8s
+          memory: "4G"
+          version: "1.20.1" # Cambia a tu versión actual
+        persistence:
+          size: 15Gi
+        service:
+          type: LoadBalancer # Si tu VPS tiene IP externa, si no pon NodePort
+        namespace: games
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: games
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
