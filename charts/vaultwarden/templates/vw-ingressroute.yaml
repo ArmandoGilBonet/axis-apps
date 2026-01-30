@@ -1,0 +1,16 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`{{ .Values.domain | replace "https://" "" }}`)
+      kind: Rule
+      services:
+        - name: {{ .Release.Name }}
+          port: 80
+  tls:
+    secretName: {{ .Release.Name }}-tls

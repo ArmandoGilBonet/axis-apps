@@ -1,0 +1,6 @@
+apiVersion: v2
+name: vaultwarden
+description: Vaultwarden para Axis
+type: application
+version: 1.0.0
+appVersion: "1.30.1"

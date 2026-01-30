@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vaultwarden
+  template:
+    metadata:
+      labels:
+        app: vaultwarden
+    spec:
+      containers:
+      - name: vaultwarden
+        image: vaultwarden/server:latest
+        env:
+        - name: DOMAIN
+          value: {{ .Values.domain | quote }}
+        - name: SIGNUPS_ALLOWED
+          value: {{ .Values.signupsAllowed | quote }}
+        - name: DATABASE_URL
+          value: {{ .Values.databaseUrl | quote }}
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: data
+          mountPath: /data
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-pvc

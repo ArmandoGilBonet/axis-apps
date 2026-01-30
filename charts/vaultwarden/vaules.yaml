@@ -1,0 +1,10 @@
+helm:
+      values: |
+        domain: "https://vault.armandogil.es"
+        signupsAllowed: "false"
+        databaseUrl: "data/vaultwarden.db"
+        ingress:
+          certManagerIssuer: "axis-dns-issuer"
+        persistence:
+          storageClass: "longhorn"
+          size: 2Gi
