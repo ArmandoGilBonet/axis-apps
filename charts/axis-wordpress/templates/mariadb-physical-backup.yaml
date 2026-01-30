@@ -9,7 +9,6 @@ spec:
   schedule:
     cron: {{ .Values.backup.schedule | quote }}
     suspend: false
-    immediate: true
   storage:
     s3:
       bucket: {{ .Values.backup.bucketFull | quote }}

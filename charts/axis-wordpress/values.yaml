@@ -33,5 +33,5 @@ backup:
   bucketExports: "axis-mariadb-exports-2jjj4f3i07p7kme6idd2"
   
   # Horarios y Retención
-  schedule: "* */4 * * *"       # Cada 30 min para aprovechar incrementales
+  schedule: "0 */4 * * *"       # Cada 30 min para aprovechar incrementales
   maxRetention: "30d"            # Tiempo total de vida del backup en S3
