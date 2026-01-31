@@ -1,0 +1,17 @@
+client_name: "client_name"
+domain: "client_name.armandogil.es"
+
+image:
+  repository: odoo
+  tag: "17.0"
+
+db:
+  user: "odoo_user"
+  secretName: "odoo-db-pass" # El que sellaremos con kubeseal
+  size: "10Gi"
+
+resources:
+  limits:
+    memory: "2Gi"
+  requests:
+    memory: "1Gi"

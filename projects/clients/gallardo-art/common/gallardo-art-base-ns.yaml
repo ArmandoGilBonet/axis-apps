@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gallardo-art
+  labels:
+    name: gallardo-art
+    managed-by: axis-argo

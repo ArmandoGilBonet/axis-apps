@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: client-{{ .Values.client_name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: odoo
+  template:
+    metadata:
+      labels:
+        app: odoo
+    spec:
+      containers:
+      - name: odoo
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        ports:
+        - containerPort: 8069
+          name: web
+        - containerPort: 8072
+          name: chat
+        env:
+        - name: HOST
+          value: "{{ .Release.Name }}-db-rw" # Host automático de CNPG
+        - name: USER
+          value: {{ .Values.db.user | quote }}
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.db.secretName }}
+              key: password
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
+        volumeMounts:
+        - name: odoo-data
+          mountPath: /var/lib/odoo
+      volumes:
+      - name: odoo-data
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-pvc-data

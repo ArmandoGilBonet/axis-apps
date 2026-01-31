@@ -1,0 +1,33 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ .Release.Name }}-db
+  namespace: client-{{ .Values.client_name }}
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.1
+  
+  storage:
+    size: {{ .Values.db.size | default "10Gi" }}
+    storageClass: {{ .Values.persistence.storageClass | default "longhorn" }}
+
+  bootstrap:
+    initdb:
+      database: odoo
+      owner: {{ .Values.db.user }}
+      secret:
+        name: {{ .Values.db.secretName }} # El SealedSecret con la password
+
+  # Gestión de backups integrada
+  backup:
+    barmanObjectStore:
+      destinationPath: s3://axis-backups/odoo/{{ .Values.client_name }}/
+      endpointURL: https://s3.eu-west-1.amazonaws.com # Ajusta a tu S3
+      region: eu-west-1
+      s3Credentials:
+        accessKeyId:
+          name: aws-s3-credentials
+          key: AWS_ACCESS_KEY_ID
+        secretAccessKey:
+          name: aws-s3-credentials
+          key: AWS_SECRET_ACCESS_KEY

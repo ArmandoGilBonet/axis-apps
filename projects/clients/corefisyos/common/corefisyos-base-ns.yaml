@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: corefisyos
+  labels:
+    name: corefisyos
+    managed-by: axis-argo

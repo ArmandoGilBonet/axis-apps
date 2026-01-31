@@ -1,0 +1,6 @@
+apiVersion: v2
+name: axis-odoo
+description: Helm chart for Odoo ERP - Axis Hosting
+type: application
+version: 1.0.0
+appVersion: "18.0"

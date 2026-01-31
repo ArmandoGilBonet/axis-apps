@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: stack-mercecastane
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io # Para que borre todo al eliminar este archivo
+spec:
+  project: clients
+  source:
+    repoURL: 'git@github.com:ArmandoGilBonet/axis-apps.git'
+    targetRevision: HEAD
+    path: projects/clients/mercecastane/
+    directory:
+      recurse: true # <--- CLAVE: Buscará en common, odoo, etc.
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: client-mercecastane # Namespace por defecto (aunque common lo defina)
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
