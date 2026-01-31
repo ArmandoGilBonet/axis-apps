@@ -11,7 +11,7 @@ spec:
   - match: Host(`{{ .Values.ingress.host }}`) || Host(`www.{{ .Values.ingress.host }}`)
     kind: Rule
     services:
-    - name: {{ .Release.Name }}
+    - name: {{ .Release.Name }}-svc
       port: 80
   tls:
     secretName: {{ .Values.ingress.tlsSecretName }}
@@ -21,7 +21,7 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: {{ .Values.ingress.tlsSecretName }}
+  name: {{ .Release.Name }}-tls
   namespace: {{ .Values.namespace }}
 spec:
   secretName: {{ .Values.ingress.tlsSecretName }}

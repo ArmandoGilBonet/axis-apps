@@ -24,7 +24,6 @@ spec:
           
         ingress:
           host: gallardo-art.es
-          tlsSecretName: gallardo-art-tls
           certManagerIssuer: axis-dns-issuer
           
         persistence:

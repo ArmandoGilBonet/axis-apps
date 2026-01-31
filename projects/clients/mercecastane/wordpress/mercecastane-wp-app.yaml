@@ -21,7 +21,6 @@ spec:
           passwordKey: "mysql-password"
         ingress:
           host: mercecastane.es
-          tlsSecretName: mercecastane-tls
           certManagerIssuer: axis-dns-issuer
         persistence:
           wpSize: 4Gi
