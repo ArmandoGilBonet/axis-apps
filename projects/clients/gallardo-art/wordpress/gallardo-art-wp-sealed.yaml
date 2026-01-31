@@ -10,5 +10,5 @@ spec:
     mysql-root-password: AgCiPLcgoQ0JLRV7CWG7scd4OkRcxGCudgskLajzSp67ktkv3qGul646iMV17OymczcvcAAqVvIkJaRUS93dAzza9ZmQq61pcU9iIIqrYy85K6fBtvaW/uzZ+nzWcyJbTELg+2hjSi+ObY8IHANoIuTGWBgYaGwcld22mZ6PDnUHS09Q2FV0oAyaU/F6qFZTwscx1uyFsaySL5QJ6RlE5cn0ipx6rXBcXvdlN9HOJM5PxnpteNndAeTGf716tvnb8Xyr5o8qOo8I4cZePRGV7I8JL5ZzLhhSHEpEwl3LxwzS84DrTJ6mYEUvGwyOzS5wN2sSv9r/LJkdSDPb/oe6anf0fF2YF2G+cz8T9+q2xyRFWxNdiMGDboBXm4CXJgCKDm0XxDPHW3dHrSf4Hho/J/dWPUZs5RsvuTx7DeifNP6+cu/qqs1C43Vey/zW0SN/WFsNhDdWXv8DmhLFNzysgsromAekZE3AC/TZY7DSKPT/iVQO/k+TurBphba2JYfDU8FtnbhvAzLG2H2KE94fl3Z9Ft8dEm7fwzA9d5Crc5El6opJrGmedJJ0S6jnQqPdCGl4SRBvzic47XfrnrXnums4fpQ2F13qfVedARoHm1JHZWIEOM/LY7hs1bpHoqwFWsxeqTPT8ccr2lG6T23y2uH2/17QDOjARJULzUKTkak5099dyzozO2b8uh8YF9rDfIL8fHHReVv6qTaNUA==
   template:
     metadata:
-      name: gallardo-art-secrets
+      name: gallardo-art-wp-secrets
       namespace: client-gallardo-art
