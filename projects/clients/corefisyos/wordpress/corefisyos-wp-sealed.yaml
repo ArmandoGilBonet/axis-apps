@@ -1,7 +1,7 @@
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
-  name: corefisyos-secrets
+  name: corefisyos-wp-secrets
   namespace: client-corefisyos
   annotations:
     sealedsecrets.bitnami.com/cluster-wide: "true"

@@ -19,7 +19,7 @@ spec:
           # El host debe coincidir con el nombre del objeto MariaDB en el clúster
           host: "gallardo-art-db"
           # Referencia al secreto que ya validamos con kubectl
-          existingSecret: "gallardo-art-secrets"
+          existingSecret: "gallardo-art-wp-secrets"
           passwordKey: "mysql-password"
           
         ingress:

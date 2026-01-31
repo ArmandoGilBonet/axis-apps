@@ -17,7 +17,7 @@ spec:
           name: mercecastane
           host: "mercecastane-db"
           tablePrefix: "qeflkj_"
-          existingSecret: "mercecastane-secrets"
+          existingSecret: "mercecastane-wp-secrets"
           passwordKey: "mysql-password"
         ingress:
           host: mercecastane.es

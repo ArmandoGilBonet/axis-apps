@@ -17,7 +17,7 @@ spec:
           name: corefisyos
           host: "corefisyos-db"
           tablePrefix: "QibrM_"
-          existingSecret: "corefisyos-secrets"
+          existingSecret: "corefisyos-wp-secrets"
           passwordKey: "mysql-password"
         ingress:
           host: corefisyos.com
