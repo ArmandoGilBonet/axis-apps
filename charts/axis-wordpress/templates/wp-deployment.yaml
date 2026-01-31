@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-wp
+  name: {{ .Release.Name }}
   namespace: {{ .Values.namespace }}
 spec:
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-wp
+      app: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-wp
+        app: {{ .Release.Name }}
     spec:
       containers:
       - name: wordpress
@@ -39,14 +39,14 @@ spec:
       volumes:
       - name: wp-data
         persistentVolumeClaim:
-          claimName: {{ .Release.Name }}-wp-pvc
+          claimName: {{ .Release.Name }}-pvc
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-wp
+  name: {{ .Release.Name }}
   namespace: {{ .Values.namespace }}
 spec:
   ports:
@@ -55,5 +55,5 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: {{ .Release.Name }}-wp
+    app: {{ .Release.Name }}
   type: ClusterIP

@@ -11,7 +11,7 @@ spec:
   - match: Host(`{{ .Values.ingress.host }}`) || Host(`www.{{ .Values.ingress.host }}`)
     kind: Rule
     services:
-    - name: {{ .Release.Name }}-wp
+    - name: {{ .Release.Name }}
       port: 80
   tls:
     secretName: {{ .Values.ingress.tlsSecretName }}
