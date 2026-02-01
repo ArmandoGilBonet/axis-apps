@@ -5,13 +5,17 @@ metadata:
   namespace: argocd
 spec:
   project: clients
-  source:
-    repoURL: 'git@github.com:ArmandoGilBonet/axis-apps.git' # Sustituye por tu repo real
-    targetRevision: HEAD
-    path: charts/axis-odoo # La ruta donde está el Chart que me has pasado
-    helm:
-      valueFiles:
-        - values-mercecastane.yaml # El archivo que creamos antes
+  sources:
+    - repoURL: 'git@github.com:ArmandoGilBonet/axis-apps.git'
+      targetRevision: HEAD
+      path: charts/axis-odoo # La ruta donde está el Chart que me has pasado
+      helm:
+        valueFiles:
+          - $axis_repo/projects/clients/mercecastane/odoo/mercecastane-odoo-values.yaml
+    
+    - repoURL: 'git@github.com:ArmandoGilBonet/axis-apps.git' # Ejemplo: git@github.com:Armando/axis-infra.git
+      targetRevision: main
+      ref: axis_repo
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: client-mercecastane
