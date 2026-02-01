@@ -3,7 +3,7 @@ apiVersion: velero.io/v1
 kind: Schedule
 metadata:
   name: {{ .Release.Name }}-backup
-  namespace: velero
+  namespace: {{ .Values.namespace }}
   labels:
     axis.ai/client: {{ .Release.Name | quote }}
 spec:
