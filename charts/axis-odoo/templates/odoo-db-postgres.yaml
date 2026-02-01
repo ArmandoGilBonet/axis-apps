@@ -23,7 +23,6 @@ spec:
     barmanObjectStore:
       destinationPath: s3://axis-backups/odoo/{{ .Values.client_name }}/
       endpointURL: https://s3.eu-west-1.amazonaws.com # Ajusta a tu S3
-      region: eu-west-1
       s3Credentials:
         accessKeyId:
           name: aws-s3-credentials
