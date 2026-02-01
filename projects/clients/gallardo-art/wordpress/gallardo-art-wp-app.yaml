@@ -45,7 +45,8 @@ spec:
           region: "eu-west-1"
           
           # Horarios
-          schedule: "* */4 * * *" 
+          schedule: "0 0 * * 6"
+          exportSchedule: "0 0 * * 6"  
 
   destination:
     server: 'https://kubernetes.default.svc'

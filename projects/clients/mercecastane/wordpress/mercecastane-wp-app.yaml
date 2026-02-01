@@ -33,7 +33,8 @@ spec:
           bucketExports: "axis-mariadb-exports-2jjj4f3i07p7kme6idd2"
           s3Endpoint: "s3.eu-west-1.amazonaws.com"
           region: "eu-west-1"
-          schedule: "* */4 * * *"
+          schedule: "0 */4 * * *"
+          exportSchedule: "0 */4 * * *"
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: client-mercecastane
