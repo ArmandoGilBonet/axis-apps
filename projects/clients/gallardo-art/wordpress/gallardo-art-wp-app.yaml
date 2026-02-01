@@ -46,7 +46,8 @@ spec:
           
           # Horarios
           schedule: "0 0 * * 6"
-          exportSchedule: "0 0 * * 6"  
+          exportSchedule: "0 0 * * 6"
+          retention: "336h0m0s"  
 
   destination:
     server: 'https://kubernetes.default.svc'

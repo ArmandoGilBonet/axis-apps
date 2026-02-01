@@ -35,6 +35,7 @@ spec:
           region: "eu-west-1"
           schedule: "0 0 * * *"
           exportSchedule: "0 0 * * *"
+          retention: "336h0m0s"
 
   destination:
     server: 'https://kubernetes.default.svc'

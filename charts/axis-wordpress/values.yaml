@@ -35,3 +35,6 @@ backup:
   # Horarios y Retención
   schedule: "0 */4 * * *"       # Cada 30 min para aprovechar incrementales
   maxRetention: "30d"            # Tiempo total de vida del backup en S3
+
+  retention: "720h0m0s"         # Tiempo de vida del backup individual
+  includeFiles: true            # Incluir wp-content en el backup

@@ -1,0 +1,27 @@
+{{- if .Values.backup.enabled }}
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: {{ .Release.Name }}-backup
+  namespace: velero
+  labels:
+    axis.ai/client: {{ .Release.Name | quote }}
+spec:
+  # Programación personalizada por cliente
+  schedule: {{ .Values.backup.schedule | default "0 3 * * *" | quote }}
+  
+  template:
+    includedNamespaces:
+      - {{ .Values.namespace }}
+    
+    # Copia bit a bit del volumen (para wp-content/plugins/themes)
+    defaultVolumesToFsBackup: {{ .Values.backup.includeFiles | default true }}
+    
+    # Tiempo de vida del backup en S3
+    ttl: {{ .Values.backup.retention | default "720h0m0s" }}
+    
+    # Usar snapshot de Longhorn para consistencia
+    snapshotMoveData: true
+    
+    storageLocation: default
+{{- end }}
