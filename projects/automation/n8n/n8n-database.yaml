@@ -16,13 +16,6 @@ spec:
     initdb:
       database: n8n_db
       owner: n8n_admin
-      secret:
-        name: n8n-postgres-secrets # El operador leerá 'password' de aquí si coincide el nombre
-        key: postgres-password
-  
-  passwordSecret:
-    name: n8n-postgres-secrets
-    key: postgres-password
 
   storage:
     size: 10Gi
