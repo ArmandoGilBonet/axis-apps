@@ -26,7 +26,6 @@ spec:
     barmanObjectStore:
       destinationPath: s3://axis-infra-backup-v7uc1944w8g7v79irbrb/n8n-db/
       endpointURL: https://s3.eu-west-1.amazonaws.com
-      region: eu-west-1
       s3Credentials:
         accessKeyId:
           name: aws-s3-infra-creds
