@@ -60,3 +60,8 @@ spec:
       - CreateNamespace=true
       - ServerSideApply=true  # Crucial para los CRDs de MariaDB
       - Validate=false       # Evita bloqueos si el esquema local de ArgoCD está cacheado
+  ignoreDifferences:
+    - group: batch
+      kind: CronJob
+      jqPathExpressions:
+        - .status

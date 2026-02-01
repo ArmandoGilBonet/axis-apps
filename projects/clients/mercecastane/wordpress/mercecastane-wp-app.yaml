@@ -46,3 +46,8 @@ spec:
       - CreateNamespace=true
       - ServerSideApply=true
       - Validate=false
+  ignoreDifferences:
+    - group: batch
+      kind: CronJob
+      jqPathExpressions:
+        - .status
