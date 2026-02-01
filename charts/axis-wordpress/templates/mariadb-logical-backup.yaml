@@ -12,6 +12,7 @@ spec:
     cron: {{ .Values.backup.exportSchedule | quote }}
     suspend: false
   {{- end }}
+  compression: gzip
   storage:
     s3:
       bucket: {{ .Values.backup.bucketExports | quote }}
