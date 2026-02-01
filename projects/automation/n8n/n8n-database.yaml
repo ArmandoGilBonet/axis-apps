@@ -1,0 +1,40 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: n8n-db
+  namespace: automation
+spec:
+  instances: 1 # Empieza con 1 para la migración, luego sube a 2 o 3
+  imageName: ghcr.io/cloudnative-pg/postgresql:16
+  
+  # Importante para Axis: Permitir réplicas en un solo nodo (Gendo)
+  affinity:
+    enablePodAntiAffinity: false
+
+  # Reutilizamos tus nombres de DB y User
+  bootstrap:
+    initdb:
+      database: n8n_db
+      owner: n8n_admin
+      secret:
+        name: n8n-postgres-secrets # El operador leerá 'password' de aquí si coincide el nombre
+
+  storage:
+    size: 10Gi
+    storageClass: longhorn
+
+  # Configuración de Backup Nativo a S3
+  backup:
+    barmanObjectStore:
+      destinationPath: s3://axis-infra-backup-v7uc1944w8g7v79irbrb/n8n-db/
+      endpointURL: https://s3.eu-west-1.amazonaws.com
+      region: eu-west-1
+      s3Credentials:
+        accessKeyId:
+          name: aws-s3-infra-creds
+          key: AWS_ACCESS_KEY_ID
+        secretAccessKey:
+          name: aws-s3-infra-creds
+          key: AWS_SECRET_ACCESS_KEY
+      wal:
+        compression: gzip
