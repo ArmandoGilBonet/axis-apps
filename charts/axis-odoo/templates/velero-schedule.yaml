@@ -7,7 +7,7 @@ metadata:
   labels:
     axis.ai/client: {{ .Release.Name | quote }}
   annotations:
-    backup.velero.io/backup-volumes-excludes: "storage,config,pki"
+    backup.velero.io/backup-volumes-excludes: "pgdata,scratch-data,shm"
 spec:
   # Programación personalizada por cliente
   schedule: {{ .Values.backup.schedule | default "0 3 * * *" | quote }}

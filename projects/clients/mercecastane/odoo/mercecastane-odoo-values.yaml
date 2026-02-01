@@ -1,14 +1,18 @@
-client_name: "client_name"
-domain: "client_name.armandogil.es"
+client_name: "mercecastane"
+domain: "odoo.mercecastane.es" # Ajusta a su subdominio real
 
 image:
   repository: odoo
   tag: "18.0"
 
 db:
-  user: "odoo_user"
-  secretName: "odoo-db-pass" # El que sellaremos con kubeseal
-  size: "10Gi"
+  user: "odoo_mercecastane"
+  secretName: "odoo-db-pass" # Este es el nombre que debe tener el SealedSecret
+  size: "15Gi" # Un poco más de espacio para Merce
+
+persistence:
+  size: "20Gi" # Espacio para el filestore (fotos, PDFs, facturas)
+  storageClass: "longhorn"
 
 resources:
   limits:
@@ -24,4 +28,4 @@ backup:
   
   schedule: "0 */4 * * *"       # Cada 30 min para aprovechar incrementales
   retention: "720h0m0s"         # Tiempo de vida del backup individual
-  includeFiles: true            # Incluir wp-content en el backup
+  includeFiles: true 
