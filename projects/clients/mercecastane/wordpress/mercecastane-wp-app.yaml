@@ -15,7 +15,7 @@ spec:
         database:
           user: mercecastane
           name: mercecastane
-          host: "mercecastane-db"
+          host: "mercecastane-wp-db"
           tablePrefix: "qeflkj_"
           existingSecret: "mercecastane-wp-secrets"
           passwordKey: "mysql-password"

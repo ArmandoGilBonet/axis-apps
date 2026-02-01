@@ -17,7 +17,7 @@ spec:
           user: gallardo
           name: gallardo
           # El host debe coincidir con el nombre del objeto MariaDB en el clúster
-          host: "gallardo-art-db"
+          host: "gallardo-art-wp-db"
           # Referencia al secreto que ya validamos con kubectl
           existingSecret: "gallardo-art-wp-secrets"
           passwordKey: "mysql-password"

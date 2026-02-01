@@ -15,7 +15,7 @@ spec:
         database:
           user: corefisyos
           name: corefisyos
-          host: "corefisyos-db"
+          host: "corefisyos-wp-db"
           tablePrefix: "QibrM_"
           existingSecret: "corefisyos-wp-secrets"
           passwordKey: "mysql-password"
