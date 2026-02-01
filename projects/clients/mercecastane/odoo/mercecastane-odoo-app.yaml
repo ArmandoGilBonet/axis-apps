@@ -6,7 +6,7 @@ metadata:
 spec:
   project: clients
   source:
-    repoURL: 'https://github.com/ArmandoGilBonet/axis-apps.git' # Sustituye por tu repo real
+    repoURL: 'git@github.com:ArmandoGilBonet/axis-apps.git' # Sustituye por tu repo real
     targetRevision: HEAD
     path: charts/axis-odoo # La ruta donde está el Chart que me has pasado
     helm:
