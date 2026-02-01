@@ -16,6 +16,8 @@ spec:
     initdb:
       database: n8n_db
       owner: n8n_admin
+      secret:
+        name: n8n-postgres-secrets
 
   storage:
     size: 10Gi
