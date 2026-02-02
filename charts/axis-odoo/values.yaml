@@ -25,3 +25,6 @@ backup:
   schedule: "0 */4 * * *"       # Cada 30 min para aprovechar incrementales
   retention: "720h0m0s"         # Tiempo de vida del backup individual
   includeFiles: true            # Incluir wp-content en el backup
+
+odoo:
+  adminPasswordSecretName: "odoo-admin-password"

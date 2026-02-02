@@ -1,0 +1,13 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: odoo-admin-password
+  namespace: client-mercecastane
+spec:
+  encryptedData:
+    admin-password: AgCm67pupR+NdkjHYxAb9DdSXh6ttQ2KxYTg7PW+349k3P22cWwkYQKnu/L0raCcFAGOon1EUz+/SLw2RcGK7YnzNqfEbqzSsPkvDNIw1rJJ8cuijUaXj6U2UjJN79ub4iGnQ3hwbaIBZ0sP72GCy8t7QOwFL8VGnP91dSVqxpbhF9asyVJ1U8kXX3SBGjhDKebqMAplh9ct3vjqw0U65NYp8JtmYfCl1ZeByKC19xZBftR4KiXiQss19UTv8Cu8mcAM/wnUQoj7XDYeXR8tHXhzgFdC6egmHeb+9XF1K+VigJCBbSqX3WPl6ufM8ImzjQPkM4sk62R6tXRXVUXY/pXVwlRWW9adl2vc6TUBBO+okZBrRwaMoD0pyPmALuuRNfQEFiYxwGoiGewizgfO7WXt8q1bQ+8OkkyjCwimiRKEbk2Eo5p1E7f68C3UjHtQn9O9wG4CjlXeLzZyUUe7fZOlPZSFsXrY4+MC6n930PakKREIDKqaObMzFGpg59lWe24ejFr2BtvL5kPgNDFR6HgLCSG4vEQPOBrAiy1/IMZA2gcXjtpnCP8kBg5klPiEbU/eD2UzUlZrOePwJONfWVe7Qk/7x8AhsBL1t1CVJwAO95iaa7aUBa0GP690sySjml2dpzWrRN6im+Q2nQYCcYms3BkJsgSyJ3BUHv/Y8zRaucc6BzNDokwQ364fJGGa6d7vyus71iOKBzn6PwBYx7LcszzaRQ==
+  template:
+    metadata:
+      name: odoo-admin-password
+      namespace: client-mercecastane

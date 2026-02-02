@@ -47,6 +47,11 @@ spec:
             secretKeyRef:
               name: {{ .Values.db.secretName }}
               key: password
+        - name: ODOO_RC_ADMIN_PASSWD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.odoo.adminPasswordSecretName }}
+              key: admin-password
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
         volumeMounts:
