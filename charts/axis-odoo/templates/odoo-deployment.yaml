@@ -27,8 +27,10 @@ spec:
           - "--db_host=$(HOST)"
           - "--db_user=$(USER)"
           - "--db_password=$(PASSWORD)"
-          - "--db_name=odoo"  # Aquí sí le decimos que use 'odoo'
-          - "--init=base"     # Si no existe la DB o el módulo, lo inicializa
+          - "-d"  # Aquí sí le decimos que use 'odoo'
+          - "odoo"
+          - "-i"     # Si no existe la DB o el módulo, lo inicializa
+          - "base"
           - "--proxy-mode"
         ports:
         - containerPort: 8069
