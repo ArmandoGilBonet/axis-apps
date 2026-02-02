@@ -13,10 +13,18 @@ spec:
 
   bootstrap:
     initdb:
-      database: odoo
-      owner: {{ .Values.db.user }}
+      # Usamos 'postgres' para que CNPG no cree la DB 'odoo'
+      # Pero asignamos al usuario de Odoo como owner de la instancia inicial
+      database: postgres
+      owner: {{ .Values.db.user | quote }}
       secret:
-        name: {{ .Values.db.secretName }} # El SealedSecret con la password
+        name: {{ .Values.db.secretName }}
+        key: password
+
+  # Mapeo explícito de la contraseña para evitar errores de autenticación
+  passwordSecret:
+    name: {{ .Values.db.secretName }}
+    key: password
 
   # Gestión de backups integrada
   backup:
