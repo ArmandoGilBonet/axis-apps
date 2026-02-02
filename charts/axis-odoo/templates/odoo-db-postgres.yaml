@@ -15,7 +15,7 @@ spec:
     initdb:
       # Usamos 'postgres' para que CNPG no cree la DB 'odoo'
       # Pero asignamos al usuario de Odoo como owner de la instancia inicial
-      database: postgres
+      database: odoo
       owner: {{ .Values.db.user | quote }}
       secret:
         name: {{ .Values.db.secretName }}
