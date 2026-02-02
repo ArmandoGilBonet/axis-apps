@@ -1,4 +1,5 @@
 client_name: "mercecastane"
+namespace: client-mercecastane
 domain: "odoo.mercecastane.es" # Ajusta a su subdominio real
 
 image:
