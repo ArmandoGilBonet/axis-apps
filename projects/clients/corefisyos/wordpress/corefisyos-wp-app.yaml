@@ -15,7 +15,7 @@ spec:
         image:
           wordpress: 
             repository: wordpress
-            tag: 5.9.12
+            tag: 6.9.1
           mariadb: 
             repository: mariadb
             tag: 10.11
