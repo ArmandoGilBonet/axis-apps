@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: wordpress
-        image: {{ .Values.image.wordpress }}
+        image: {{ .Values.image.wordpress.repository }}:{{ .Values.image.wordpress.tag }}
         env:
         - name: WORDPRESS_DB_HOST
           # Corregido: El servicio se llama como el recurso MariaDB
