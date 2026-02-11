@@ -2,8 +2,12 @@ namespace: default
 replicaCount: 1
 
 image:
-  wordpress: wordpress:latest
-  mariadb: mariadb:10.11
+  wordpress: 
+    repository: wordpress
+    tag: 6.9.1
+  mariadb: 
+    repository: mariadb
+    tag: 10.11
   pullPolicy: IfNotPresent
 
 database:
