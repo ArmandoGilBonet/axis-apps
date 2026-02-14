@@ -7,6 +7,13 @@ spec:
   instances: 1 # Empieza con 1 para la migración, luego sube a 2 o 3
   imageName: ghcr.io/cloudnative-pg/postgresql:16
   
+  postgresql:
+    parameters:
+      max_wal_size: "1GB"      # Evita que el WAL crezca indefinidamente
+      min_wal_size: "512MB"
+      archive_timeout: "300s"  # Fuerza el archivado cada 5 min
+      checkpoint_timeout: "5min"
+
   # Importante para Axis: Permitir réplicas en un solo nodo (Gendo)
   affinity:
     enablePodAntiAffinity: false
@@ -20,7 +27,7 @@ spec:
         name: n8n-postgres-secrets
 
   storage:
-    size: 10Gi
+    size: 12Gi
     storageClass: longhorn
 
   # Configuración de Backup Nativo a S3
