@@ -20,20 +20,32 @@ spec:
         - sh
         - -c
         - |
-          # Comprobamos si el plugin ya existe para no sobreescribir nada
+          # 1. Instalación del plugin si no existe
           if [ ! -d "/var/www/html/wp-content/plugins/redis-cache" ]; then
-            echo "Instalando Redis Object Cache de serie para Axis..."
-            # Instalamos wget y unzip de forma temporal
+            echo "Instalando Redis Object Cache..."
             apk add --no-cache wget unzip
             wget -qO /tmp/redis.zip https://downloads.wordpress.org/plugin/redis-cache.latest.zip
             unzip -q /tmp/redis.zip -d /var/www/html/wp-content/plugins/
+            chown -R www-data:www-data /var/www/html/wp-content/plugins/redis-cache
             rm /tmp/redis.zip
-            echo "Plugin descargado correctamente."
-          else
-            echo "El plugin Redis ya existe en el volumen, saltando paso."
+          fi
+
+          # 2. Inyección de configuración en wp-config.php si falta
+          if [ -f "/var/www/html/wp-config.php" ]; then
+            if ! grep -q "WP_REDIS_HOST" /var/www/html/wp-config.php; then
+              echo "Configurando Redis en wp-config.php..."
+              # Insertamos antes de la línea de 'stop editing'
+              sed -i "//* That's all, stop editing!/i \
+              /* Redis Config by Axis */\n\
+              define( 'WP_REDIS_HOST', '{{ .Release.Name }}-wp-redis' );\n\
+              define( 'WP_REDIS_PORT', 6379 );\n\
+              define( 'WP_CACHE', true );\n\
+              ini_set('session.save_handler', 'redis');\n\
+              ini_set('session.save_path', 'tcp://{{ .Release.Name }}-wp-redis:6379');\n" /var/www/html/wp-config.php
+            fi
           fi
         volumeMounts:
-        - name: wp-data   # Asegúrate de que este nombre coincida con tu volumen de WP
+        - name: wp-data
           mountPath: /var/www/html
       {{- end }}
       containers:
