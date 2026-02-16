@@ -4,7 +4,8 @@ metadata:
   name: {{ .Release.Name }}-pvc
   namespace: {{ .Values.namespace }}
 spec:
-  accessModes: [ReadWriteOnce]
+  accessModes: 
+    - {{ .Values.persistence.accessMode | default "ReadWriteOnce" | quote }}  
   storageClassName: {{ .Values.persistence.storageClass }}
   resources:
     requests:

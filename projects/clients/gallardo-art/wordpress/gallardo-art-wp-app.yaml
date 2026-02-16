@@ -37,6 +37,7 @@ spec:
           wpSize: 4Gi
           dbSize: 5Gi
           storageClass: longhorn
+          accessMode: ReadWriteMany
 
         # --- CONFIGURACIÓN DE BACKUP AXIS ---
         backup:

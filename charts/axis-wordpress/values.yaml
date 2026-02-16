@@ -18,6 +18,7 @@ persistence:
   storageClass: longhorn
   wpSize: 10Gi
   dbSize: 5Gi
+  accessMode: ReadWriteOnce
 
 ingress:
   enabled: true
