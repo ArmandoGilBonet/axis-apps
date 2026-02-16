@@ -20,7 +20,7 @@ spec:
         - sh
         - -c
         - |
-          # 1. Instalar dependencias necesarias incluyendo certificados
+          # 1. Instalar dependencias
           apk add --no-cache wget unzip ca-certificates
 
           # 2. Instalación del plugin
@@ -29,40 +29,29 @@ spec:
             wget --no-check-certificate -qO /tmp/redis.zip https://downloads.wordpress.org/plugin/redis-cache.zip
             if [ -s /tmp/redis.zip ]; then
               unzip -q /tmp/redis.zip -d /var/www/html/wp-content/plugins/
-              # Usamos 33:33 que es el ID estándar de www-data
               chown -R 33:33 /var/www/html/wp-content/plugins/redis-cache
-              echo "Plugin instalado correctamente."
-            else
-              echo "Error: El archivo zip está vacío."
             fi
           fi
 
-          # 3. Inyección inteligente en wp-config.php
+          # 3. Inyección inteligente (Usando un método que no rompe el YAML)
           if [ -f "/var/www/html/wp-config.php" ]; then
-              echo "Actualizando configuración de Redis en wp-config.php..."
+              echo "Actualizando wp-config.php..."
               
-              # Borramos cualquier configuración previa de Redis para evitar duplicados o errores
-              sed -i '/WP_REDIS_HOST/d' /var/www/html/wp-config.php
-              sed -i '/WP_REDIS_PORT/d' /var/www/html/wp-config.php
-              sed -i '/WP_CACHE/d' /var/www/html/wp-config.php
-              sed -i '/session.save_handler/d' /var/www/html/wp-config.php
-              sed -i '/session.save_path/d' /var/www/html/wp-config.php
-              sed -i '/Redis Config by Axis/d' /var/www/html/wp-config.php
+              # Limpiamos rastro antiguo
+              sed -i '/WP_REDIS_HOST/d; /WP_REDIS_PORT/d; /WP_CACHE/d; /session.save_handler/d; /session.save_path/d; /Redis Config by Axis/d' /var/www/html/wp-config.php
 
-              # Creamos el nuevo bloque con los valores actuales
-              cat <<EOF > /tmp/axis-redis.php
-/* Redis Config by Axis */
-define( 'WP_REDIS_HOST', '{{ .Release.Name }}-wp-redis' );
-define( 'WP_REDIS_PORT', 6379 );
-define( 'WP_CACHE', true );
-ini_set('session.save_handler', 'redis');
-ini_set('session.save_path', 'tcp://{{ .Release.Name }}-wp-redis:6379');
-EOF
-                            
-              # Inyectamos justo debajo de <?php
+              # En lugar de cat <<EOF, usamos un echo multilínea más seguro para YAML
+              printf "/* Redis Config by Axis */\n\
+              define( 'WP_REDIS_HOST', '{{ .Release.Name }}-wp-redis' );\n\
+              define( 'WP_REDIS_PORT', 6379 );\n\
+              define( 'WP_CACHE', true );\n\
+              ini_set('session.save_handler', 'redis');\n\
+              ini_set('session.save_path', 'tcp://{{ .Release.Name }}-wp-redis:6379');\n" > /tmp/axis-redis.php
+              
+              # Inyectamos
               sed -i "/<?php/r /tmp/axis-redis.php" /var/www/html/wp-config.php
               chown 33:33 /var/www/html/wp-config.php
-              echo "Configuración actualizada correctamente."
+              echo "Configuración aplicada correctamente."
           fi
         volumeMounts:
         - name: wp-data
