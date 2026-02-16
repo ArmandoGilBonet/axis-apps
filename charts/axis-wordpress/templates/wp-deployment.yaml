@@ -20,28 +20,32 @@ spec:
         - sh
         - -c
         - |
-          # 1. Instalación del plugin si no existe
+          # 1. Instalar dependencias necesarias incluyendo certificados
+          apk add --no-cache wget unzip ca-certificates
+
+          # 2. Instalación del plugin
           if [ ! -d "/var/www/html/wp-content/plugins/redis-cache" ]; then
-            echo "Instalando Redis Object Cache..."
-            apk add --no-cache wget unzip
-            wget -qO /tmp/redis.zip https://downloads.wordpress.org/plugin/redis-cache.latest.zip
-            unzip -q /tmp/redis.zip -d /var/www/html/wp-content/plugins/
-            chown -R www-data:www-data /var/www/html/wp-content/plugins/redis-cache
-            rm /tmp/redis.zip
+            echo "Descargando Redis Object Cache..."
+            wget --no-check-certificate -qO /tmp/redis.zip https://downloads.wordpress.org/plugin/redis-cache.latest.zip
+            if [ -s /tmp/redis.zip ]; then
+              unzip -q /tmp/redis.zip -d /var/www/html/wp-content/plugins/
+              # Usamos 33:33 que es el ID estándar de www-data
+              chown -R 33:33 /var/www/html/wp-content/plugins/redis-cache
+              echo "Plugin instalado correctamente."
+            else
+              echo "Error: El archivo zip está vacío."
+            fi
           fi
 
-          # 2. Inyección de configuración en wp-config.php si falta
+          # 3. Inyección en wp-config.php (Sintaxis compatible con BusyBox)
           if [ -f "/var/www/html/wp-config.php" ]; then
             if ! grep -q "WP_REDIS_HOST" /var/www/html/wp-config.php; then
               echo "Configurando Redis en wp-config.php..."
-              # Insertamos antes de la línea de 'stop editing'
-              sed -i "//* That's all, stop editing!/i \
-              /* Redis Config by Axis */\n\
-              define( 'WP_REDIS_HOST', '{{ .Release.Name }}-wp-redis' );\n\
-              define( 'WP_REDIS_PORT', 6379 );\n\
-              define( 'WP_CACHE', true );\n\
-              ini_set('session.save_handler', 'redis');\n\
-              ini_set('session.save_path', 'tcp://{{ .Release.Name }}-wp-redis:6379');\n" /var/www/html/wp-config.php
+              # Creamos un bloque limpio
+              REDIS_BLOCK="define( 'WP_REDIS_HOST', '{{ .Release.Name }}-wp-redis' );\ndefine( 'WP_REDIS_PORT', 6379 );\ndefine( 'WP_CACHE', true );\nini_set('session.save_handler', 'redis');\nini_set('session.save_path', 'tcp://{{ .Release.Name }}-wp-redis:6379');"
+              
+              # Insertamos antes de la línea final usando un marcador más simple
+              sed -i "/wp-settings.php/i $REDIS_BLOCK" /var/www/html/wp-config.php
             fi
           fi
         volumeMounts:
