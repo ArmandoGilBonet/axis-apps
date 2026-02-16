@@ -23,7 +23,8 @@ spec:
         command: 
           - "redis-server"
           - "--maxmemory"
-          - {{ .Values.redis.memoryLimit | quote }}
+          # Cambiamos "Mi" por "mb" para que Redis lo acepte
+          - {{ .Values.redis.memoryLimit | replace "Mi" "mb" | replace "Gi" "gb" | quote }}
           - "--maxmemory-policy"
           - {{ .Values.redis.maxmemoryPolicy | default "allkeys-lru" | quote }}
         ports:
@@ -32,7 +33,7 @@ spec:
         resources:
           # Definimos límites para proteger los nodos Shinji/Yui/Gendo
           limits:
-            memory: {{ .Values.redis.memoryLimit }}
+            memory: {{ .Values.redis.memoryLimit | replace "mb" "Mi" }}
           requests:
             cpu: "50m"
             memory: "64Mi"

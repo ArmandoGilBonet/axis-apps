@@ -48,7 +48,7 @@ backup:
 
 redis:
   enabled: true
-  memoryLimit: "128Mi" # Suficiente para un WP standard
+  memoryLimit: "128mb" # Suficiente para un WP standard
   maxmemoryPolicy: "allkeys-lru" # Borra lo viejo cuando se llena
   useSessions: true    # Guardar sesiones en Redis para mejor rendimiento
   installPlugin: true    # Descarga el plugin automáticamente vía InitContainer
