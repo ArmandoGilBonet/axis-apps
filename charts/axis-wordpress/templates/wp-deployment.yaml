@@ -12,6 +12,30 @@ spec:
       labels:
         app: {{ .Release.Name }}
     spec:
+      {{- if and .Values.redis.enabled .Values.redis.installPlugin }}
+      initContainers:
+      - name: install-redis-plugin
+        image: alpine:latest
+        command:
+        - sh
+        - -c
+        - |
+          # Comprobamos si el plugin ya existe para no sobreescribir nada
+          if [ ! -d "/var/www/html/wp-content/plugins/redis-cache" ]; then
+            echo "Instalando Redis Object Cache de serie para Axis..."
+            # Instalamos wget y unzip de forma temporal
+            apk add --no-cache wget unzip
+            wget -qO /tmp/redis.zip https://downloads.wordpress.org/plugin/redis-cache.latest.zip
+            unzip -q /tmp/redis.zip -d /var/www/html/wp-content/plugins/
+            rm /tmp/redis.zip
+            echo "Plugin descargado correctamente."
+          else
+            echo "El plugin Redis ya existe en el volumen, saltando paso."
+          fi
+        volumeMounts:
+        - name: wp-data   # Asegúrate de que este nombre coincida con tu volumen de WP
+          mountPath: /var/www/html
+      {{- end }}
       containers:
       - name: wordpress
         image: {{ .Values.image.wordpress.repository }}:{{ .Values.image.wordpress.tag }}
@@ -31,6 +55,20 @@ spec:
               key: {{ .Values.database.passwordKey | default "mysql-password" | quote }}
         - name: WORDPRESS_TABLE_PREFIX
           value: {{ .Values.database.tablePrefix | default "wp_" | quote }}
+        - name: WORDPRESS_CONFIG_EXTRA
+          value: |
+            {{- if .Values.redis.enabled }}
+            /* Configuración de Redis Object Cache */
+            define( 'WP_REDIS_HOST', '{{ .Release.Name }}-redis' );
+            define( 'WP_REDIS_PORT', 6379 );
+            define( 'WP_CACHE', true );
+            
+            {{- if .Values.redis.useSessions }}
+            /* Configuración de Sesiones en Redis */
+            ini_set('session.save_handler', 'redis');
+            ini_set('session.save_path', 'tcp://{{ .Release.Name }}-redis:6379');
+            {{- end }}
+            {{- end }}
         ports:
         - containerPort: 80
         volumeMounts:

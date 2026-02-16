@@ -1,6 +1,6 @@
 apiVersion: v2
 name: axis-wordpress
-description: Helm chart for Axis WordPress clients with MariaDB and Longhorn
+description: Helm chart for Axis WordPress clients with MariaDB, Redis and Longhorn
 type: application
 version: 1.0.0
 appVersion: "6.4.2"

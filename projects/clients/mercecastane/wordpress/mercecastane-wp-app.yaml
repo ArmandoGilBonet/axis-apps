@@ -44,6 +44,11 @@ spec:
           schedule: "0 */4 * * *"
           exportSchedule: "0 */4 * * *"
           retention: "336h0m0s"
+        redis:
+          enabled: true
+          useSessions: true
+          memoryLimit: "256Mi"
+          maxmemoryPolicy: "allkeys-lru"
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: client-mercecastane

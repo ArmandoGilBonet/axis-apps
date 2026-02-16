@@ -45,3 +45,10 @@ backup:
 
   retention: "720h0m0s"         # Tiempo de vida del backup individual
   includeFiles: true            # Incluir wp-content en el backup
+
+redis:
+  enabled: true
+  memoryLimit: "128Mi" # Suficiente para un WP standard
+  maxmemoryPolicy: "allkeys-lru" # Borra lo viejo cuando se llena
+  useSessions: true    # Guardar sesiones en Redis para mejor rendimiento
+  installPlugin: true    # Descarga el plugin automáticamente vía InitContainer

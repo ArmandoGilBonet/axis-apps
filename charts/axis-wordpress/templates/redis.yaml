@@ -1,0 +1,56 @@
+{{- if .Values.redis.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-redis
+  labels:
+    app: {{ .Release.Name }}-redis
+    release: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-redis
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:7-alpine
+        # Configuración de memoria dinámica desde values.yaml
+        command: 
+          - "redis-server"
+          - "--maxmemory"
+          - {{ .Values.redis.memoryLimit | quote }}
+          - "--maxmemory-policy"
+          - {{ .Values.redis.maxmemoryPolicy | default "allkeys-lru" | quote }}
+        ports:
+        - containerPort: 6379
+          name: redis
+        resources:
+          # Definimos límites para proteger los nodos Shinji/Yui/Gendo
+          limits:
+            memory: {{ .Values.redis.memoryLimit }}
+          requests:
+            cpu: "50m"
+            memory: "64Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-redis
+  labels:
+    app: {{ .Release.Name }}-redis
+    release: {{ .Release.Name }}
+spec:
+  type: ClusterIP
+  ports:
+  - port: 6379
+    targetPort: 6379
+    protocol: TCP
+    name: redis
+  selector:
+    app: {{ .Release.Name }}-redis
+{{- end -}}
