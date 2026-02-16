@@ -33,25 +33,19 @@ spec:
             fi
           fi
 
-          # 3. Inyección inteligente (Usando un método que no rompe el YAML)
+          # 3. Inyección limpia (Axis Pro v3)
           if [ -f "/var/www/html/wp-config.php" ]; then
-              echo "Actualizando wp-config.php..."
-              
-              # Limpiamos rastro antiguo
+              echo "Limpiando rastro de Redis..."
+              # Borra cualquier línea que contenga estos términos, sin importar espacios
               sed -i '/WP_REDIS_HOST/d; /WP_REDIS_PORT/d; /WP_CACHE/d; /session.save_handler/d; /session.save_path/d; /Redis Config by Axis/d' /var/www/html/wp-config.php
 
-              # En lugar de cat <<EOF, usamos un echo multilínea más seguro para YAML
-              printf "/* Redis Config by Axis */\n\
-              define( 'WP_REDIS_HOST', '{{ .Release.Name }}-wp-redis' );\n\
-              define( 'WP_REDIS_PORT', 6379 );\n\
-              define( 'WP_CACHE', true );\n\
-              ini_set('session.save_handler', 'redis');\n\
-              ini_set('session.save_path', 'tcp://{{ .Release.Name }}-wp-redis:6379');\n" > /tmp/axis-redis.php
+              echo "Inyectando configuración nueva..."
+              # IMPORTANTE: El printf no debe tener espacios al inicio de las líneas de código
+              printf "/* Redis Config by Axis */\ndefine('WP_REDIS_HOST', '{{ .Release.Name }}-redis');\ndefine('WP_REDIS_PORT', 6379);\ndefine('WP_CACHE', true);\nini_set('session.save_handler', 'redis');\nini_set('session.save_path', 'tcp://{{ .Release.Name }}-redis:6379');\n" > /tmp/axis-redis.php
               
-              # Inyectamos
               sed -i "/<?php/r /tmp/axis-redis.php" /var/www/html/wp-config.php
               chown 33:33 /var/www/html/wp-config.php
-              echo "Configuración aplicada correctamente."
+              echo "Configuración aplicada."
           fi
         volumeMounts:
         - name: wp-data
