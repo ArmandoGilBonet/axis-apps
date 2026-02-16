@@ -26,7 +26,7 @@ spec:
           # 2. Instalación del plugin
           if [ ! -d "/var/www/html/wp-content/plugins/redis-cache" ]; then
             echo "Descargando Redis Object Cache..."
-            wget --no-check-certificate -qO /tmp/redis.zip https://downloads.wordpress.org/plugin/redis-cache.latest.zip
+            wget --no-check-certificate -qO /tmp/redis.zip https://downloads.wordpress.org/plugin/redis-cache.zip
             if [ -s /tmp/redis.zip ]; then
               unzip -q /tmp/redis.zip -d /var/www/html/wp-content/plugins/
               # Usamos 33:33 que es el ID estándar de www-data
@@ -37,16 +37,32 @@ spec:
             fi
           fi
 
-          # 3. Inyección en wp-config.php (Sintaxis compatible con BusyBox)
+          # 3. Inyección inteligente en wp-config.php
           if [ -f "/var/www/html/wp-config.php" ]; then
-            if ! grep -q "WP_REDIS_HOST" /var/www/html/wp-config.php; then
-              echo "Configurando Redis en wp-config.php..."
-              # Creamos un bloque limpio
-              REDIS_BLOCK="define( 'WP_REDIS_HOST', '{{ .Release.Name }}-wp-redis' );\ndefine( 'WP_REDIS_PORT', 6379 );\ndefine( 'WP_CACHE', true );\nini_set('session.save_handler', 'redis');\nini_set('session.save_path', 'tcp://{{ .Release.Name }}-wp-redis:6379');"
+              echo "Actualizando configuración de Redis en wp-config.php..."
               
-              # Insertamos antes de la línea final usando un marcador más simple
-              sed -i "/wp-settings.php/i $REDIS_BLOCK" /var/www/html/wp-config.php
-            fi
+              # Borramos cualquier configuración previa de Redis para evitar duplicados o errores
+              sed -i '/WP_REDIS_HOST/d' /var/www/html/wp-config.php
+              sed -i '/WP_REDIS_PORT/d' /var/www/html/wp-config.php
+              sed -i '/WP_CACHE/d' /var/www/html/wp-config.php
+              sed -i '/session.save_handler/d' /var/www/html/wp-config.php
+              sed -i '/session.save_path/d' /var/www/html/wp-config.php
+              sed -i '/Redis Config by Axis/d' /var/www/html/wp-config.php
+
+              # Creamos el nuevo bloque con los valores actuales
+              cat <<EOF > /tmp/axis-redis.php
+              /* Redis Config by Axis */
+              define( 'WP_REDIS_HOST', '{{ .Release.Name }}-wp-redis' );
+              define( 'WP_REDIS_PORT', 6379 );
+              define( 'WP_CACHE', true );
+              ini_set('session.save_handler', 'redis');
+              ini_set('session.save_path', 'tcp://{{ .Release.Name }}-wp-redis:6379');
+              EOF
+                            
+              # Inyectamos justo debajo de <?php
+              sed -i "/<?php/r /tmp/axis-redis.php" /var/www/html/wp-config.php
+              chown 33:33 /var/www/html/wp-config.php
+              echo "Configuración actualizada correctamente."
           fi
         volumeMounts:
         - name: wp-data
