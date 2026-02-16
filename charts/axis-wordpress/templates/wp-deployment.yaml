@@ -51,13 +51,13 @@ spec:
 
               # Creamos el nuevo bloque con los valores actuales
               cat <<EOF > /tmp/axis-redis.php
-              /* Redis Config by Axis */
-              define( 'WP_REDIS_HOST', '{{ .Release.Name }}-wp-redis' );
-              define( 'WP_REDIS_PORT', 6379 );
-              define( 'WP_CACHE', true );
-              ini_set('session.save_handler', 'redis');
-              ini_set('session.save_path', 'tcp://{{ .Release.Name }}-wp-redis:6379');
-              EOF
+/* Redis Config by Axis */
+define( 'WP_REDIS_HOST', '{{ .Release.Name }}-wp-redis' );
+define( 'WP_REDIS_PORT', 6379 );
+define( 'WP_CACHE', true );
+ini_set('session.save_handler', 'redis');
+ini_set('session.save_path', 'tcp://{{ .Release.Name }}-wp-redis:6379');
+EOF
                             
               # Inyectamos justo debajo de <?php
               sed -i "/<?php/r /tmp/axis-redis.php" /var/www/html/wp-config.php
