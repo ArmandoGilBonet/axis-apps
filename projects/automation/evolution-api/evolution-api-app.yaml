@@ -70,9 +70,9 @@ spec:
         - name: CONFIG_SESSION_WHATSAPP_BROWSER_PLATFORM
           value: "Windows"
         - name: CONFIG_SESSION_WHATSAPP_BROWSER_VERSION
-          value: "100.0.4896.127"
+          value: "120.0"
         - name: CONFIG_SESSION_WHATSAPP_BROWSER_USER_AGENT
-          value: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36"
+          value: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
         - name: CONFIG_SESSION_WHATSAPP_KEEP_ALIVE
           value: "true"
         - name: CONFIG_SESSION_WHATSAPP_QR_TIMEOUT
