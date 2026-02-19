@@ -59,6 +59,12 @@ spec:
           value: "evolution"
         - name: CACHE_LOCAL_ENABLED
           value: "false" # Desactivamos la caché local para usar solo Redis
+        - name: LOG_LEVEL
+          value: "debug"
+        - name: LOG_BAILEYS
+          value: "debug" # <--- Esto es lo que necesitamos ver
+        - name: DATABASE_RUN_MIGRATIONS
+          value: "true"
         volumeMounts:
         - name: storage
           mountPath: /evolution/instances
