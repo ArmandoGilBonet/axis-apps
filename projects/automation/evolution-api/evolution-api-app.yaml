@@ -33,6 +33,8 @@ spec:
               key: AUTHENTICATION_API_KEY
         - name: DATABASE_ENABLED
           value: "true"
+        - name: DATABASE_PROVIDER
+          value: "postgresql"
         - name: DATABASE_CONNECTION_URI
           # Estructura: postgresql://USER:PASSWORD@HOST:PORT/DATABASE
           value: "postgresql://$(DB_USER):$(DB_PASSWORD)@evolution-db-rw:5432/evolution_db?schema=public"
