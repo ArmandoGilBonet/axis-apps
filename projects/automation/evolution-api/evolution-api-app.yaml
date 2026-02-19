@@ -65,6 +65,10 @@ spec:
           value: "debug" # <--- Esto es lo que necesitamos ver
         - name: DATABASE_RUN_MIGRATIONS
           value: "true"
+        - name: CONFIG_SESSION_WHATSAPP_BROWSER_NAME
+          value: "Chrome"
+        - name: CONFIG_SESSION_WHATSAPP_BROWSER_PLATFORM
+          value: "Windows"
         volumeMounts:
         - name: storage
           mountPath: /evolution/instances
