@@ -69,6 +69,20 @@ spec:
           value: "Chrome"
         - name: CONFIG_SESSION_WHATSAPP_BROWSER_PLATFORM
           value: "Windows"
+        - name: CONFIG_SESSION_WHATSAPP_BROWSER_VERSION
+          value: "100.0.4896.127"
+        - name: CONFIG_SESSION_WHATSAPP_BROWSER_USER_AGENT
+          value: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36"
+        - name: CONFIG_SESSION_WHATSAPP_KEEP_ALIVE
+          value: "true"
+        - name: CONFIG_SESSION_WHATSAPP_QR_TIMEOUT
+          value: "300000" # 5 minutos en milisegundos
+        - name: CONFIG_SESSION_WHATSAPP_RETRY_TIMEOUT
+          value: "60000" # 1 minuto en milisegundos
+        - name: CONFIG_SESSION_WHATSAPP_LOG_LEVEL
+          value: "debug" 
+        - name: CONFIG_SESSION_PHONE_VERSION
+          value: "14.0.0" # Versión de WhatsApp en el teléfono
         volumeMounts:
         - name: storage
           mountPath: /evolution/instances
