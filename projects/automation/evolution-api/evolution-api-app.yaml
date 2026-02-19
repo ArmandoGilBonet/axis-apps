@@ -83,6 +83,8 @@ spec:
           value: "debug" 
         - name: CONFIG_SESSION_PHONE_VERSION
           value: "14.0.0" # Versión de WhatsApp en el teléfono
+        - name: WEBHOOK_EVENTS_IGNORE_FROM_ME
+          value: "true"
         volumeMounts:
         - name: storage
           mountPath: /evolution/instances
