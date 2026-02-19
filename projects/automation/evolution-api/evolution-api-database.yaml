@@ -22,7 +22,7 @@ spec:
       database: evolution_db
       owner: evolution_admin
       secret:
-        name: evolution-postgres-secrets # Este secret lo crea CNPG con la contraseña
+        name: evolution-api-postgres-secrets # Este secret lo crea CNPG con la contraseña
 
   storage:
     size: 5Gi # Más que suficiente para empezar
