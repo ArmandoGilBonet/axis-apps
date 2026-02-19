@@ -35,11 +35,6 @@ spec:
           value: "true"
         - name: DATABASE_PROVIDER
           value: "postgresql"
-        - name: DATABASE_CONNECTION_URI
-          # Estructura: postgresql://USER:PASSWORD@HOST:PORT/DATABASE
-          value: "postgresql://$(DB_USER):$(DB_PASSWORD)@evolution-db-rw:5432/evolution_db?schema=public"
-        - name: DATABASE_CONNECTION_CLIENT_NAME
-          value: "evolution_api"
         - name: DB_USER
           valueFrom:
             secretKeyRef:
@@ -51,6 +46,11 @@ spec:
             secretKeyRef:
               name: evolution-api-postgres-secrets
               key: password
+        - name: DATABASE_CONNECTION_URI
+          # Estructura: postgresql://USER:PASSWORD@HOST:PORT/DATABASE
+          value: "postgresql://$(DB_USER):$(DB_PASSWORD)@evolution-db-rw:5432/evolution_db?schema=public"
+        - name: DATABASE_CONNECTION_CLIENT_NAME
+          value: "evolution_api"
         volumeMounts:
         - name: storage
           mountPath: /evolution/instances
