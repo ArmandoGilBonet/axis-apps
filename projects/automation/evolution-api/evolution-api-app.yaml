@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: evolution-api
-        image: atendare/evolution-api:latest
+        image: evolutionapi/evolution-api:latest
         ports:
         - containerPort: 8080
         env:
