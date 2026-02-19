@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: evolution-api
+  namespace: automation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: evolution-api
+  template:
+    metadata:
+      labels:
+        app: evolution-api
+    spec:
+      containers:
+      - name: evolution-api
+        image: atendare/evolution-api:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SERVER_URL
+          value: "https://whatsapp.armandogil.es"
+        - name: API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: evolution-api-encryption-key
+              key: API_KEY
+        - name: AUTHENTICATION_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: evolution-api-encryption-key
+              key: AUTHENTICATION_API_KEY
+        volumeMounts:
+        - name: storage
+          mountPath: /evolution/instances
+      volumes:
+      - name: storage
+        persistentVolumeClaim:
+          claimName: evolution-api-pvc
