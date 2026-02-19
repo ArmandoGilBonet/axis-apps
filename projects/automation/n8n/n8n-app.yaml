@@ -74,6 +74,8 @@ spec:
               value: "Europe/Madrid"
             - name: TZ
               value: "Europe/Madrid"
+            - name: N8N_COMMUNITY_PACKAGES
+              value: "n8n-nodes-evolution-api" # Puedes poner varios separados por comas
           ports:
             - containerPort: 5678
           volumeMounts:
