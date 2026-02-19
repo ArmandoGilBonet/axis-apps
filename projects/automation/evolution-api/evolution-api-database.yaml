@@ -1,0 +1,45 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: evolution-db
+  namespace: axis # He puesto el namespace axis que mencionamos antes
+spec:
+  instances: 1 
+  imageName: ghcr.io/cloudnative-pg/postgresql:16
+  
+  postgresql:
+    parameters:
+      max_wal_size: "1GB"
+      min_wal_size: "512MB"
+      archive_timeout: "300s"
+      checkpoint_timeout: "5min"
+
+  affinity:
+    enablePodAntiAffinity: false
+
+  bootstrap:
+    initdb:
+      database: evolution_db
+      owner: evolution_admin
+      secret:
+        name: evolution-postgres-secrets # Este secret lo crea CNPG con la contraseña
+
+  storage:
+    size: 5Gi # Más que suficiente para empezar
+    storageClass: longhorn
+
+  backup:
+    barmanObjectStore:
+      # Ajustamos la ruta para que no se mezcle con n8n
+      destinationPath: s3://axis-infra-backup-v7uc1944w8g7v79irbrb/evolution-db/
+      endpointURL: https://s3.eu-west-1.amazonaws.com
+      s3Credentials:
+        accessKeyId:
+          name: aws-s3-infra-creds
+          key: AWS_ACCESS_KEY_ID
+        secretAccessKey:
+          name: aws-s3-infra-creds
+          key: AWS_SECRET_ACCESS_KEY
+      wal:
+        compression: gzip
+    retentionPolicy: "30d"

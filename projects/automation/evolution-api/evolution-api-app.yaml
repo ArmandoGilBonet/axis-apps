@@ -31,6 +31,24 @@ spec:
             secretKeyRef:
               name: evolution-api-encryption-key
               key: AUTHENTICATION_API_KEY
+        - name: DATABASE_ENABLED
+          value: "true"
+        - name: DATABASE_CONNECTION_URI
+          # Estructura: postgresql://USER:PASSWORD@HOST:PORT/DATABASE
+          value: "postgresql://$(DB_USER):$(DB_PASSWORD)@evolution-db-rw:5432/evolution_db?schema=public"
+        - name: DATABASE_CONNECTION_CLIENT_NAME
+          value: "evolution_api"
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: evolution-api-postgres-secrets
+              key: username
+        # Inyectamos la contraseña desde el secret de CNPG
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: evolution-api-postgres-secrets
+              key: password
         volumeMounts:
         - name: storage
           mountPath: /evolution/instances
