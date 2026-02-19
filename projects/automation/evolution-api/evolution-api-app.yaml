@@ -51,7 +51,6 @@ spec:
           value: "postgresql://$(DB_USER):$(DB_PASSWORD)@evolution-db-rw:5432/evolution_db?schema=public"
         - name: DATABASE_CONNECTION_CLIENT_NAME
           value: "evolution_api"
-        env:
         - name: CACHE_REDIS_ENABLED
           value: "true"
         - name: CACHE_REDIS_URI
