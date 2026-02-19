@@ -70,6 +70,10 @@ spec:
                   key: postgres-password
             - name: NODES_EXCLUDE
               value: "[]"
+            - name: GENERIC_TIMEZONE
+              value: "Europe/Madrid"
+            - name: TZ
+              value: "Europe/Madrid"
           ports:
             - containerPort: 5678
           volumeMounts:
