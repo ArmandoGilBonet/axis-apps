@@ -51,6 +51,15 @@ spec:
           value: "postgresql://$(DB_USER):$(DB_PASSWORD)@evolution-db-rw:5432/evolution_db?schema=public"
         - name: DATABASE_CONNECTION_CLIENT_NAME
           value: "evolution_api"
+        env:
+        - name: CACHE_REDIS_ENABLED
+          value: "true"
+        - name: CACHE_REDIS_URI
+          value: "redis://evolution-api-redis-service:6379/0"
+        - name: CACHE_REDIS_PREFIX_KEY
+          value: "evolution"
+        - name: CACHE_LOCAL_ENABLED
+          value: "false" # Desactivamos la caché local para usar solo Redis
         volumeMounts:
         - name: storage
           mountPath: /evolution/instances
