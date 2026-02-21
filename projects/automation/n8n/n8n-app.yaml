@@ -40,7 +40,7 @@ spec:
               mountPath: /bin-shared
       containers:
         - name: n8n
-          image: n8nio/n8n:latest-debian
+          image: n8nio/n8n:latest
           env:
             - name: N8N_PORT
               value: "5678"
@@ -76,8 +76,6 @@ spec:
               value: "Europe/Madrid"
             - name: N8N_COMMUNITY_PACKAGES
               value: "n8n-nodes-evolution-api"
-            - name: N8N_NODES_INCLUDE
-              value: "n8n-nodes-base.wooCommerce"
           ports:
             - containerPort: 5678
           volumeMounts:
