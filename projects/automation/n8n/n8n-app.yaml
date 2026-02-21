@@ -40,7 +40,7 @@ spec:
               mountPath: /bin-shared
       containers:
         - name: n8n
-          image: n8nio/n8n:latest
+          image: n8nio/n8n:latest-python
           env:
             - name: N8N_PORT
               value: "5678"
@@ -76,6 +76,12 @@ spec:
               value: "Europe/Madrid"
             - name: N8N_COMMUNITY_PACKAGES
               value: "n8n-nodes-evolution-api" # Puedes poner varios separados por comas
+            - name: N8N_PYTHON_INTERPRETER
+              value: /usr/bin/python3      # <--- Ruta de Python en Alpine
+            - name: N8N_COMMAND_BEFORE_START
+              value: "pip install Pillow --break-system-packages"
+            - name: N8N_BLOCK_SVG_EDIT # Recomendado por seguridad al usar Python
+              value: "true"
           ports:
             - containerPort: 5678
           volumeMounts:
