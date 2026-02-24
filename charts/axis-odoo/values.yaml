@@ -29,4 +29,4 @@ backup:
 odoo:
   adminPasswordSecretName: "odoo-admin-password"
 
-responseTimeout: "30s"
+#responseTimeout: "30s"
