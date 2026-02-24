@@ -24,14 +24,9 @@ spec:
       - name: odoo
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         args:
-          - "--db_host=$(HOST)"
-          - "--db_user=$(USER)"
+          - "--config=/etc/odoo/odoo.conf"
+          - "--admin-passwd=$(ADMIN_PASSWORD)" # Kubernetes expande esto antes de lanzar Odoo
           - "--db_password=$(PASSWORD)"
-          - "-d"  # Aquí sí le decimos que use 'odoo'
-          - "$(DATABASE)"
-          - "-i"     # Si no existe la DB o el módulo, lo inicializa
-          - "base"
-          - "--proxy-mode"
         ports:
         - containerPort: 8069
           name: web
