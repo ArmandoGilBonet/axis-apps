@@ -17,6 +17,8 @@ spec:
       # Pero asignamos al usuario de Odoo como owner de la instancia inicial
       database: odoo
       owner: {{ .Values.db.user | quote }}
+      postInitApplicationSQL:
+        - ALTER USER {{ .Values.db.user }} WITH CREATEDB;
       secret:
         name: {{ .Values.db.secretName }}
         key: password

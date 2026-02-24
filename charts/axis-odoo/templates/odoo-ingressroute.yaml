@@ -12,6 +12,7 @@ spec:
     services:
     - name: {{ .Release.Name }}-service
       port: 8069
+      responseTimeout: {{ .Values.responseTimeout | default "30s" }}
   tls:
     secretName: {{ .Values.client_name }}-odoo-tls
 ---

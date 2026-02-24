@@ -30,3 +30,5 @@ backup:
   schedule: "0 */4 * * *"       # Cada 30 min para aprovechar incrementales
   retention: "720h0m0s"         # Tiempo de vida del backup individual
   includeFiles: true 
+
+responseTimeout: "900s"
