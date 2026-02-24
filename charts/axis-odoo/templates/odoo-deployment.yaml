@@ -49,7 +49,7 @@ spec:
             secretKeyRef:
               name: {{ .Values.db.secretName }}
               key: password
-        - name: ODOO_ADMIN_PASSWORD
+        - name: ODOO_ADMIN_PASSWD
           valueFrom:
             secretKeyRef:
               name: {{ .Values.odoo.adminPasswordSecretName }}
