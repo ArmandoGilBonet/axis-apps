@@ -28,7 +28,7 @@ spec:
           - "--db_user=$(USER)"
           - "--db_password=$(PASSWORD)"
           - "-d"  # Aquí sí le decimos que use 'odoo'
-          - "odoo"
+          - "$(DATABASE)"
           - "-i"     # Si no existe la DB o el módulo, lo inicializa
           - "base"
           - "--proxy-mode"
@@ -40,6 +40,8 @@ spec:
         env:
         - name: HOST
           value: "{{ .Release.Name }}-db-rw" # Host automático de CNPG
+        - name: DATABASE
+          value: {{ .Values.db.database | default "odoo" }}
         - name: USER
           value: {{ .Values.db.user | quote }}
         - name: PASSWORD
@@ -47,7 +49,7 @@ spec:
             secretKeyRef:
               name: {{ .Values.db.secretName }}
               key: password
-        - name: ODOO_RC_ADMIN_PASSWD
+        - name: ODOO_ADMIN_PASSWD
           valueFrom:
             secretKeyRef:
               name: {{ .Values.odoo.adminPasswordSecretName }}
