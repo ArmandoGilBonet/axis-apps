@@ -49,7 +49,7 @@ spec:
             secretKeyRef:
               name: {{ .Values.db.secretName }}
               key: password
-        - name: ADMIN_PASSWD
+        - name: ADMIN_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Values.odoo.adminPasswordSecretName }}
@@ -59,7 +59,13 @@ spec:
         volumeMounts:
         - name: odoo-data
           mountPath: /var/lib/odoo
+        - name: odoo-config
+          mountPath: /etc/odoo/odoo.conf
+          subPath: odoo.conf
       volumes:
       - name: odoo-data
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-pvc-data
+      - name: odoo-config
+        configMap:
+          name: {{ .Release.Name }}-config

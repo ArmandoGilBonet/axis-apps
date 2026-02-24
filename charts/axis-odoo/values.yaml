@@ -29,5 +29,6 @@ backup:
 
 odoo:
   adminPasswordSecretName: "odoo-admin-password"
+  workers: 2
 
 #responseTimeout: "30s"

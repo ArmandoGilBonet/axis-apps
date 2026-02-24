@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-config
+  namespace: client-{{ .Values.client_name }}
+data:
+  odoo.conf: |
+    [options]
+    admin_passwd = $(ADMIN_PASSWORD)
+    db_host = {{ .Release.Name }}-db-rw
+    db_user = {{ .Values.db.user }}
+    db_password = $(PASSWORD)
+    db_port = 5432
+    proxy_mode = True
+    addons_path = /usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons
+    data_dir = /var/lib/odoo
+    ; Ajustes recomendados para Axis
+    workers = {{ .Values.odoo.workers | default 2 }}
+    max_cron_threads = 1
