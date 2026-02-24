@@ -27,7 +27,6 @@ spec:
           - "--db_host=$(HOST)"
           - "--db_user=$(USER)"
           - "--db_password=$(PASSWORD)"
-          - "--admin-passwd=$(ADMIN_PASSWORD)"
           - "-d"  # Aquí sí le decimos que use 'odoo'
           - "$(DATABASE)"
           - "-i"     # Si no existe la DB o el módulo, lo inicializa
@@ -50,7 +49,7 @@ spec:
             secretKeyRef:
               name: {{ .Values.db.secretName }}
               key: password
-        - name: ADMIN_PASSWORD
+        - name: ODOO_ADMIN_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Values.odoo.adminPasswordSecretName }}
