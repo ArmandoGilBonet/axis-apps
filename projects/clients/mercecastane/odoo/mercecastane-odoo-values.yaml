@@ -10,6 +10,7 @@ db:
   user: "odoo_mercecastane"
   secretName: "odoo-db-pass" # Este es el nombre que debe tener el SealedSecret
   size: "5Gi" # Un poco más de espacio para Merce
+  database: "mercecastane"
 
 persistence:
   size: "5Gi" # Espacio para el filestore (fotos, PDFs, facturas)
