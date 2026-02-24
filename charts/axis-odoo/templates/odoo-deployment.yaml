@@ -25,14 +25,22 @@ spec:
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         args:
           - "--config=/etc/odoo/odoo.conf"
-          - "--admin-passwd=$(ADMIN_PASSWORD)" # Kubernetes expande esto antes de lanzar Odoo
-          - "--db_password=$(PASSWORD)"
         ports:
         - containerPort: 8069
           name: web
         - containerPort: 8072
           name: chat
         env:
+        - name: ODOO_ADMIN_PASSWD # Odoo mapea esto a admin_passwd internamente
+          valueFrom:
+            secretKeyRef:
+              name: odoo-db-pass
+              key: admin-password
+        - name: ODOO_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: odoo-db-pass
+              key: password
         - name: HOST
           value: "{{ .Release.Name }}-db-rw" # Host automático de CNPG
         - name: DATABASE
