@@ -31,4 +31,4 @@ backup:
   retention: "720h0m0s"         # Tiempo de vida del backup individual
   includeFiles: true 
 
-responseTimeout: "900s"
+#responseTimeout: "900s"
