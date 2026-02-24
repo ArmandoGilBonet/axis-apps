@@ -7,12 +7,17 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`{{ .Values.domain }}`)
-    kind: Rule
+  - kind: Rule
+    match: Host(`{{ .Values.domain }}`)
     services:
     - name: {{ .Release.Name }}-service
       port: 8069
       #responseTimeout: {{ .Values.responseTimeout | default "30s" }}
+    - kind: Rule
+      match: Host(`{{ .Values.domain }}`) && PathPrefix(`/websocket`)
+      services:
+        - name: {{ .Release.Name }}-service
+          port: 8069
   tls:
     secretName: {{ .Values.client_name }}-odoo-tls
 ---

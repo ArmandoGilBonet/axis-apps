@@ -6,10 +6,8 @@ metadata:
 data:
   odoo.conf: |
     [options]
-    #admin_passwd = $(ADMIN_PASSWORD)
     db_host = {{ .Release.Name }}-db-rw
     db_user = {{ .Values.db.user }}
-    #db_password = $(PASSWORD)
     db_port = 5432
     proxy_mode = True
     addons_path = /usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons
