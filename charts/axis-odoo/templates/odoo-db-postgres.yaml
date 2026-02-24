@@ -22,11 +22,6 @@ spec:
       postInitApplicationSQL:
         - ALTER USER {{ .Values.db.user }} WITH CREATEDB;
 
-  # Mapeo explícito de la contraseña para evitar errores de autenticación
-  passwordSecret:
-    name: {{ .Values.db.secretName }}
-    key: password
-
   # Gestión de backups integrada
   backup:
     barmanObjectStore:
