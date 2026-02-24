@@ -17,7 +17,7 @@ spec:
     match: Host(`{{ .Values.domain }}`) && PathPrefix(`/websocket`)
     services:
       - name: {{ .Release.Name }}-service
-        port: 8069
+        port: 8072
   tls:
     secretName: {{ .Values.client_name }}-odoo-tls
 ---
