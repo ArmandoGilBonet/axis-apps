@@ -23,19 +23,13 @@ spec:
       containers:
       - name: odoo
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        command: ["/bin/sh", "-c"]
         args:
           - |
-            # 1. Copiamos el configmap (solo lectura) a una ruta temporal (escribible)
-            cp /etc/odoo/odoo.conf /tmp/odoo.conf
-            
-            # 2. Inyectamos las contraseñas reales de tus Sealed Secrets al final del archivo
-            # Esto sobreescribirá cualquier valor previo en el archivo
-            echo "admin_passwd = $ADMIN_PASSWORD" >> /tmp/odoo.conf
-            echo "db_password = $DB_PASSWORD" >> /tmp/odoo.conf
-            
-            echo "Llaves de infraestructura Axis cargadas. Arrancando Odoo..."
-            
-            # 3. Lanzamos Odoo con el archivo generado
+            cp /etc/odoo/odoo.conf /tmp/odoo.conf && \
+            echo "admin_passwd = $ADMIN_PASSWORD" >> /tmp/odoo.conf && \
+            echo "db_password = $DB_PASSWORD" >> /tmp/odoo.conf && \
+            echo "Infraestructura Axis lista. Arrancando..." && \
             exec odoo --config=/tmp/odoo.conf
         ports:
         - containerPort: 8069
