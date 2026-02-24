@@ -18,6 +18,13 @@ spec:
     services:
       - name: {{ .Release.Name }}-service
         port: 8072
+  - kind: Rule
+    match: Host(`{{ .Values.domain }}`) && PathPrefix(`/web/database`)
+    middlewares:
+      - name: block-db-manager
+    services:
+      - name: {{ .Release.Name }}-service
+        port: 8069
   tls:
     secretName: {{ .Values.client_name }}-odoo-tls
 ---
@@ -33,3 +40,17 @@ spec:
     kind: ClusterIssuer
   dnsNames:
   - {{ .Values.domain }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: block-db-manager
+  namespace: client-{{ .Values.client_name }}
+spec:
+  ipWhiteList:
+    sourceRange:
+      {{- if .Values.mgmt_ips }}
+      {{- toYaml .Values.mgmt_ips | nindent 6 }}
+      {{- else }}
+      - 127.0.0.1/32  # Bloqueo total por defecto
+      {{- end }}

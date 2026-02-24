@@ -10,6 +10,7 @@ db:
   database: "odoo"
   secretName: "odoo-db-pass" # El que sellaremos con kubeseal
   size: "10Gi"
+  list: false
 
 resources:
   limits:
@@ -30,5 +31,7 @@ backup:
 odoo:
   adminPasswordSecretName: "odoo-admin-password"
   workers: 2
+
+mgmt_ips: []
 
 #responseTimeout: "30s"
