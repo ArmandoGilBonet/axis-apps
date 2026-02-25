@@ -27,6 +27,9 @@ spec:
     barmanObjectStore:
       destinationPath: s3://axis-clients-backup-ukg2qr90zft4cbtmprmw/{{ .Values.client_name }}/odoo/
       endpointURL: https://s3.eu-west-1.amazonaws.com # Ajusta a tu S3
+      data:
+        compression: gzip
+        jobs: 2
       wal:
         compression: gzip
       s3Credentials:
@@ -36,6 +39,7 @@ spec:
         secretAccessKey:
           name: aws-s3-backups
           key: AWS_SECRET_ACCESS_KEY
+    retentionPolicy: "30d"
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup

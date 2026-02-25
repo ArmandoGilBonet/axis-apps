@@ -42,6 +42,18 @@ spec:
         secretAccessKey:
           name: aws-s3-infra-creds
           key: AWS_SECRET_ACCESS_KEY
+      data:
+        compression: gzip
+        jobs: 2
       wal:
         compression: gzip
     retentionPolicy: "30d"
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: {{ .Release.Name }}-daily-backup
+spec:
+  schedule: "0 0 3 * * *" # Todos los días a las 3 AM
+  cluster:
+    name: {{ .Release.Name }}-db
