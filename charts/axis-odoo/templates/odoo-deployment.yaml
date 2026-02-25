@@ -30,7 +30,7 @@ spec:
             echo "admin_passwd = $ADMIN_PASSWORD" >> /tmp/odoo.conf && \
             echo "db_password = $DB_PASSWORD" >> /tmp/odoo.conf && \
             echo "Infraestructura Axis lista. Arrancando..." && \
-            exec odoo --config=/tmp/odoo.conf -d $DATABASE -i base
+            exec odoo --config=/tmp/odoo.conf -d $DATABASE
         ports:
         - containerPort: 8069
           name: web
