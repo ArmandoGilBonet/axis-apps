@@ -27,6 +27,8 @@ spec:
     barmanObjectStore:
       destinationPath: s3://axis-clients-backup-ukg2qr90zft4cbtmprmw/{{ .Values.client_name }}/odoo/
       endpointURL: https://s3.eu-west-1.amazonaws.com # Ajusta a tu S3
+      wal:
+        compression: gzip
       s3Credentials:
         accessKeyId:
           name: aws-s3-backups
