@@ -25,12 +25,12 @@ spec:
   # Gestión de backups integrada
   backup:
     barmanObjectStore:
-      destinationPath: s3://axis-backups/odoo/{{ .Values.client_name }}/
+      destinationPath: s3://axis-clients-backup-ukg2qr90zft4cbtmprmw/{{ .Values.client_name }}/odoo/
       endpointURL: https://s3.eu-west-1.amazonaws.com # Ajusta a tu S3
       s3Credentials:
         accessKeyId:
-          name: aws-s3-credentials
+          name: aws-s3-backups
           key: AWS_ACCESS_KEY_ID
         secretAccessKey:
-          name: aws-s3-credentials
+          name: aws-s3-backups
           key: AWS_SECRET_ACCESS_KEY
