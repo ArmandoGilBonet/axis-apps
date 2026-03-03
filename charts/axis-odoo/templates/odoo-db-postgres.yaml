@@ -10,6 +10,9 @@ spec:
   storage:
     size: {{ .Values.db.size | default "10Gi" }}
     storageClass: {{ .Values.persistence.storageClass | default "longhorn" }}
+  walStorage:
+    size: {{ .Values.db.walSize | default "5Gi" }}
+    storageClass: {{ .Values.persistence.storageClass | default "longhorn" }}
 
   bootstrap:
     initdb:
