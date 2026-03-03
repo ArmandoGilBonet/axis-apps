@@ -29,6 +29,10 @@ spec:
   storage:
     size: 12Gi
     storageClass: longhorn
+  
+  walStorage:
+    size: 5Gi
+    storageClass: longhorn
 
   # Configuración de Backup Nativo a S3
   backup:
