@@ -57,6 +57,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
   name: n8n-db-daily-backup
+  namespace: automation
 spec:
   schedule: "0 0 3 * * *" # Todos los días a las 3 AM
   cluster:
