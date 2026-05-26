@@ -9,15 +9,3 @@ spec:
   resources:
     requests:
       storage: 5Gi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: postgres-n8n-pvc
-  namespace: automation
-spec:
-  accessModes: ["ReadWriteOnce"]
-  storageClassName: longhorn
-  resources:
-    requests:
-      storage: 2Gi
