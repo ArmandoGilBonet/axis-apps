@@ -6,6 +6,9 @@ metadata:
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | default "ReadWriteOnce" }}
+  {{- if .Values.persistence.volumeName }}
+  volumeName: {{ .Values.persistence.volumeName }}
+  {{- end }}
   storageClassName: {{ .Values.persistence.storageClass | default "longhorn" }}
   resources:
     requests:

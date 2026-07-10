@@ -15,6 +15,8 @@ db:
 persistence:
   size: "6Gi" # Espacio para el filestore (fotos, PDFs, facturas)
   storageClass: "longhorn"
+  volumeName: pvc-d0046149-f615-4256-8d9d-cf1d75ac8026
+  accessMode: "ReadWriteOnce"
 
 resources:
   limits:
