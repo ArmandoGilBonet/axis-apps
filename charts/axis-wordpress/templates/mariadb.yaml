@@ -23,7 +23,33 @@ spec:
   storage:
     size: {{ .Values.persistence.dbSize | default "5Gi" | quote }}
     storageClassName: {{ .Values.persistence.storageClass | default "longhorn" | quote }}
-    ephemeral: false 
+    ephemeral: false
+
+  livenessProbe:
+    exec:
+      command: 
+        - "/bin/bash"
+        - "-c"
+        - |
+          # 1. Verificar si el sistema de archivos está en RO
+          if grep -q " /var/lib/mysql .*ro," /proc/mounts; then exit 1; fi
+          # 2. Verificar que el proceso responde
+          mariadb-admin ping -u root -p${MARIADB_ROOT_PASSWORD}
+    initialDelaySeconds: 30
+    periodSeconds: 20
+    failureThreshold: 3
+
+  readinessProbe:
+    exec:
+      command:
+        - "/bin/bash"
+        - "-c"
+        - |
+          # Intenta una operación de escritura real en una tabla temporal
+          mariadb -u root -p${MARIADB_ROOT_PASSWORD} -e "CREATE TEMPORARY TABLE healthcheck (id INT); DROP TABLE healthcheck;"
+    initialDelaySeconds: 20
+    periodSeconds: 10
+    failureThreshold: 3 
 
   #myCnf: |
   #    [mariadb]

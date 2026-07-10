@@ -5,7 +5,7 @@ metadata:
   namespace: client-{{ .Values.client_name }}
 spec:
   accessModes:
-    - ReadWriteMany
+    - {{ .Values.persistence.accessMode | default "ReadWriteOnce" }}
   storageClassName: {{ .Values.persistence.storageClass | default "longhorn" }}
   resources:
     requests:

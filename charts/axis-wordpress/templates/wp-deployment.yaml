@@ -54,6 +54,32 @@ spec:
       containers:
       - name: wordpress
         image: {{ .Values.image.wordpress.repository }}:{{ .Values.image.wordpress.tag }}
+        startupProbe:
+          httpGet:
+            path: /index.php
+            port: 80
+          # Damos 2 minutos (12 * 10s) para que el initContainer termine y WP arranque
+          failureThreshold: 12
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /index.php
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 5
+        livenessProbe:
+          exec:
+            command:
+            - /bin/bash
+            - -c
+            - |
+              # 1. Detectar si el volumen de Longhorn se ha puesto en Read-Only
+              if grep -q " /var/www/html .*ro," /proc/mounts; then exit 1; fi
+              # 2. Verificar que Apache/PHP responde (opcional, pero recomendado)
+              curl -f http://localhost/index.php || exit 1
+          initialDelaySeconds: 20
+          periodSeconds: 30
         env:
         - name: WORDPRESS_DB_HOST
           # Corregido: El servicio se llama como el recurso MariaDB
